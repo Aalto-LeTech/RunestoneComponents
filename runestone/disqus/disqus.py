@@ -20,52 +20,32 @@ from docutils.parsers.rst import directives
 from docutils.parsers.rst import Directive
 
 
-DISQUS_BOX = """\
-<script type="text/javascript">
-    function %(identifier)s_disqus(source) { 
-        if (window.DISQUS) {
+DISQUS_COMMENTS = """\
+<div id="disqus_thread"></div>
+<script>
+    var disqus_path = window.location.protocol + '//' + window.location.host + window.location.pathname;
+    var disqus_id = '%(identifier)s_' + eBookConfig.course;
 
-            $('#disqus_thread').insertAfter(source); //put the DIV for the Disqus box after the link
+    var disqus_config = function () {
+        this.page.url = disqus_path;
+        this.page.identifier = disqus_id;
+    };
 
-            //if Disqus exists, call it's reset method with new parameters
-            DISQUS.reset({
-                reload: true,
-                config: function () {
-                    this.page.identifier = '%(identifier)s_' + eBookConfig.course;
-                    this.page.url = 'http://%(identifier)s_'+eBookConfig.course+'.interactivepython.com/#!';
-                }
-            });
+    (function() {
+        var d = document, s = d.createElement('script');
 
-        } else {
-            //insert a wrapper in HTML after the relevant "show comments" link
-            $('<div id="disqus_thread"></div>').insertAfter(source);
+        s.src = '//%(shortname)s.disqus.com/embed.js';
 
-            // set Disqus required vars
-            disqus_shortname = '%(shortname)s';    
-            disqus_identifier = '%(identifier)s_' + eBookConfig.course;
-            disqus_url = 'http://%(identifier)s_'+eBookConfig.course+'.interactivepython.com/#!';
-
-            //append the Disqus embed script to HTML
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-            $('head').append(dsq);
-
-        }
-    }
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
 </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 """
-
-DISQUS_LINK = """
-<a href="#disqus_thread" class='disqus_thread_link' data-disqus-identifier="%(identifier)s" onclick="%(identifier)s_disqus(this);">Show Comments</a>
-<script type='text/javascript'>
-    $("a[data-disqus-identifier='%(identifier)s']").attr('data-disqus-identifier', '%(identifier)s_' + eBookConfig.course);
-</script>
-"""
-
 
 def setup(app):
     app.add_directive('disqus', DisqusDirective)
-    
+
     app.add_node(DisqusNode, html=(visit_disqus_node, depart_disqus_node))
     app.connect('doctree-resolved' ,process_disqus_nodes)
     app.connect('env-purge-doc', purge_disqus_nodes)
@@ -77,11 +57,8 @@ class DisqusNode(nodes.General, nodes.Element):
 
 
 def visit_disqus_node(self, node):
-    res = DISQUS_BOX   
-    res += DISQUS_LINK
-
+    res = DISQUS_COMMENTS
     res = res % node.disqus_components
-
     self.body.append(res)
 
 def depart_disqus_node(self,node):
@@ -112,4 +89,3 @@ class DisqusDirective(Directive):
         """
 
         return [DisqusNode(self.options)]
-
