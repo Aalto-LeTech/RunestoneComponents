@@ -587,20 +587,15 @@ ActiveCode.prototype.createOutput = function() {
     // using a canvas to using some other element like svg in the future.
     var outDiv = document.createElement("div");
     $(outDiv).addClass("ac_output col-md-6");
+    $(outDiv).css("display", "none");
     this.outDiv = outDiv;
     this.output = document.createElement('pre');
-    $(this.output).css("visibility", "hidden");
+    $(this.output).css("display", "none");
 
     this.graphics = document.createElement('div');
     this.graphics.id = this.divid + "_graphics";
     $(this.graphics).addClass("ac-canvas");
-    // This bit of magic adds an event which waits for a canvas child to be created on our
-    // newly created div.  When a canvas child is added we add a new class so that the visible
-    // canvas can be styled in CSS.  Which a the moment means just adding a border.
-    $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
-        $(this.graphics).addClass("visible-ac-canvas");
-        $(this.graphics).css("display", "block");
-    }).bind(this));
+    $(this.graphics).css("display", "none");
 
     outDiv.appendChild(this.output);
     outDiv.appendChild(this.graphics);
@@ -609,7 +604,6 @@ ActiveCode.prototype.createOutput = function() {
     clearDiv = document.createElement("div");
     $(clearDiv).css("clear","both");  // needed to make parent div resize properly
     this.outerDiv.appendChild(clearDiv);
-
 
     var lensDiv = document.createElement("div");
     $(lensDiv).addClass("col-md-6");
@@ -868,11 +862,15 @@ ActiveCode.prototype.toggleEditorVisibility = function() {
 
 ActiveCode.prototype.addErrorMessage = function(err) {
     //logRunEvent({'div_id': this.divid, 'code': this.prog, 'errinfo': err.toString()}); // Log the run event
-    var errHead = $('<h3>').html(getLocalizedString(activeCodeLocalizationColl, "LabelCodeRunErrorTitle"));
-    this.eContainer = this.outerDiv.appendChild(document.createElement('div'));
+    this.eContainer = this.outerDiv.insertBefore(document.createElement('div'), this.outDiv);
     this.eContainer.className = 'error alert alert-danger';
     this.eContainer.id = this.divid + '_errinfo';
+    $(this.eContainer).css("display", "none");
+    $(this.eContainer).css("visibility", "visible");
+
+    var errHead = $('<h3>').html(getLocalizedString(activeCodeLocalizationColl, "LabelCodeRunErrorTitle"));
     this.eContainer.appendChild(errHead[0]);
+
     var errText = this.eContainer.appendChild(document.createElement('pre'));
     var errString = err.toString();
     var to = errString.indexOf(":");
@@ -886,6 +884,9 @@ ActiveCode.prototype.addErrorMessage = function(err) {
     errFix.innerHTML = getLocalizedString(activeCodeLocalizationColl, "ErrorFromCodeRun_" + errName + 'Fix');
     var moreInfo = '../ErrorHelp/' + errName.toLowerCase() + '.html';
     //console.log("Runtime Error: " + err.toString());
+
+    /* $(this.output).css("display", "block"); */
+    $(this.eContainer).slideDown({duration: 500, easing: "easeOutQuint", queue: false});
 };
 
 ActiveCode.prototype.setTimeLimit = function(timer) {
@@ -970,7 +971,24 @@ ActiveCode.prototype.buildProg = function() {
 ActiveCode.prototype.runProg = function() {
         var prog = this.buildProg();
 
-        $(this.output).text('');
+        $(this.outDiv).css("display", "none");
+        $(this.output).css("display", "none");
+
+        $(this.output).off("DOMNodeInserted");
+        $(this.output).empty();
+        $(this.output).on("DOMNodeInserted", (function(e) {
+            $(this.outDiv).css("display", "block");
+            $(this.output).slideDown({duration:100, queue:false});
+        }).bind(this));
+
+        $(this.graphics).off("DOMNodeInserted");
+        $(this.graphics).css("display", "none");
+        $(this.graphics).removeClass("visible-ac-canvas");
+        $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
+            $(this.outDiv).css("display", "block");
+            $(this.graphics).addClass("visible-ac-canvas");
+            $(this.graphics).slideDown({duration:300, queue:false});
+        }).bind(this));
 
         $(this.eContainer).remove();
         Sk.configure({output : this.outputfun.bind(this),
@@ -984,9 +1002,6 @@ ActiveCode.prototype.runProg = function() {
         Sk.canvas = this.graphics.id; //todo: get rid of this here and in image
         $(this.runButton).attr('disabled', 'disabled');
         //$(this.codeDiv).switchClass("col-md-12","col-md-6",{duration:500,queue:false});
-        $(this.output).css("display", "block");
-        $(this.outDiv).css("visibility", "visible");
-        $(this.outDiv).show({duration:700,queue:false});
         var myPromise = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
