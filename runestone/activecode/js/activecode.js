@@ -572,6 +572,11 @@ ActiveCode.prototype.createControls = function() {
         $(butt).click((function() {new AudioTour(this.divid, this.editor.getValue(), 1, $(this.origElem).data("audio"))}).bind(this));
     }
 
+    var instructionsLabel = document.createElement("span");
+    $(instructionsLabel).addClass("activecode_instructions_label");
+    $(instructionsLabel).html("Suoritustulokset, ohjelmakoodivisualisoinnit sekä<br />mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle.");
+    ctrlDiv.appendChild(instructionsLabel);
+
     $(this.outerDiv).prepend(ctrlDiv);
 
 };
@@ -584,7 +589,7 @@ ActiveCode.prototype.createOutput = function() {
     $(outDiv).addClass("ac_output col-md-6");
     this.outDiv = outDiv;
     this.output = document.createElement('pre');
-    $(this.output).css("visibility","hidden");
+    $(this.output).css("visibility", "hidden");
 
     this.graphics = document.createElement('div');
     this.graphics.id = this.divid + "_graphics";
@@ -594,6 +599,7 @@ ActiveCode.prototype.createOutput = function() {
     // canvas can be styled in CSS.  Which a the moment means just adding a border.
     $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
         $(this.graphics).addClass("visible-ac-canvas");
+        $(this.graphics).css("display", "block");
     }).bind(this));
 
     outDiv.appendChild(this.output);
@@ -805,8 +811,8 @@ ActiveCode.prototype.showCodelens = function() {
     var embedUrlStr = $.param.fragment(srcURL, myVars, 2 /* clobber all */);
     var myIframe = document.createElement('iframe');
     myIframe.setAttribute("id", this.divid + '_codelens');
-    myIframe.setAttribute("width", "800");
-    myIframe.setAttribute("height", "500");
+    myIframe.setAttribute("width", "100%");
+    myIframe.setAttribute("height", "500px");
     myIframe.setAttribute("style", "display:block");
     myIframe.style.background = '#fff';
     //myIframe.setAttribute("src",srcURL)
@@ -977,10 +983,11 @@ ActiveCode.prototype.runProg = function() {
         (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = this.graphics;
         Sk.canvas = this.graphics.id; //todo: get rid of this here and in image
         $(this.runButton).attr('disabled', 'disabled');
-        $(this.codeDiv).switchClass("col-md-12","col-md-6",{duration:500,queue:false});
+        //$(this.codeDiv).switchClass("col-md-12","col-md-6",{duration:500,queue:false});
+        $(this.output).css("display", "block");
+        $(this.outDiv).css("visibility", "visible");
         $(this.outDiv).show({duration:700,queue:false});
         var myPromise = Sk.misceval.asyncToPromise(function() {
-
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
 
