@@ -604,17 +604,18 @@ ActiveCode.prototype.createOutput = function() {
     var outDiv = document.createElement("div");
     $(outDiv).addClass("ac_output col-md-6");
     $(outDiv).css("display", "none");
-    this.outDiv = outDiv;
-    this.output = document.createElement('pre');
-    $(this.output).css("display", "none");
 
     this.graphics = document.createElement('div');
     this.graphics.id = this.divid + "_graphics";
     $(this.graphics).addClass("ac-canvas");
     $(this.graphics).css("display", "none");
-
-    outDiv.appendChild(this.output);
     outDiv.appendChild(this.graphics);
+
+    this.outDiv = outDiv;
+    this.output = document.createElement('pre');
+    $(this.output).css("display", "none");
+    outDiv.appendChild(this.output);
+
     this.outerDiv.appendChild(outDiv);
 
     clearDiv = document.createElement("div");
@@ -994,6 +995,7 @@ ActiveCode.prototype.runProg = function() {
         $(this.output).empty();
         $(this.output).on("DOMNodeInserted", (function(e) {
             $(this.outDiv).css("display", "block");
+            $(this.output).css("display", "inline-block");
             $(this.output).slideDown({duration:100, queue:false});
         }).bind(this));
 
