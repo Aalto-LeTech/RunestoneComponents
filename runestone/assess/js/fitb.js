@@ -48,13 +48,13 @@ var feedBack = function (elem, correct, feedbackText) {        // Displays feedb
     // elem is the Element in which to put the feedback
     if (correct) {
         $(elem).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgCorrectHTML"));
-        $(elem).attr("class", "alert alert-success");
+        $(elem).attr("class", "alert alert-success fitb-feedback");
     } else {
         if (feedbackText === null) {
             feedbackText = "";
         }
         $(elem).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgIncorrectHTML") + feedbackText);
-        $(elem).attr("class", "alert alert-danger");
+        $(elem).attr("class", "alert alert-danger fitb-feedback");
     }
 };
 
@@ -186,7 +186,7 @@ FITB.prototype.createFITBElement = function () {
 FITB.prototype.renderFITBInput = function () {
     // creates the blank and appends it to the parent div
     this.containerDiv = document.createElement("div");
-    $(this.containerDiv).addClass("alert alert-warning");
+    $(this.containerDiv).addClass("alert alert-warning fitb-container");
     this.containerDiv.id = this.divid;
 
     this.blankArray = [];
@@ -199,7 +199,7 @@ FITB.prototype.renderFITBInput = function () {
         $(blank).attr({
             "type": "text",
             "id": this.divid + "_blank" + i,
-            "class": "form form-control selectwidthauto"
+            "class": "form form-control selectwidthauto fitb-input"
         });
         this.containerDiv.appendChild(blank);
         this.blankArray.push(blank);
@@ -211,19 +211,23 @@ FITB.prototype.renderFITBButtons = function () {
     this.submitButton = document.createElement("button");    // Check me button
     this.submitButton.textContent = getLocalizedString(MChoiceJsLocalizationColl, "CaptionCheckMeButton");
     $(this.submitButton).attr({
-        "class": "btn btn-success",
+        "class": "btn btn-success fitb-check-button",
         "name": "do answer"
     });
     this.submitButton.addEventListener("click", function () {
         this.checkFITBStorage();
     }.bind(this), false);
-    this.containerDiv.appendChild(document.createElement("br"));
-    this.containerDiv.appendChild(document.createElement("br"));
+    var lineBreak = document.createElement("br");
+    $(lineBreak).addClass("fitb-separator");
+    this.containerDiv.appendChild(lineBreak);
+    lineBreak = document.createElement("br");
+    $(lineBreak).addClass("fitb-separator");
+    this.containerDiv.appendChild(lineBreak);
     this.containerDiv.appendChild(this.submitButton);
     if (this.useRunestoneServices) {
         this.compareButton = document.createElement("button");    // Compare me button
         $(this.compareButton).attr({
-            "class": "btn btn-default",
+            "class": "btn btn-default fitb-compare-button",
             "id": this.origElem.id + "_bcomp",
             "disabled": "",
             "name": "compare"
@@ -235,13 +239,18 @@ FITB.prototype.renderFITBButtons = function () {
         this.containerDiv.appendChild(this.compareButton);
     }
 
-    this.containerDiv.appendChild(document.createElement("div"));
+    lineBreak = document.createElement("div");
+    $(lineBreak).addClass("fitb-separator");
+    this.containerDiv.appendChild(lineBreak);
 };
 
 FITB.prototype.renderFITBFeedbackDiv = function () {
+    var lineBreak = document.createElement("br");
+    $(lineBreak).addClass("fitb-separator");
+    this.containerDiv.appendChild(lineBreak);
+
     this.feedBackDiv = document.createElement("div");
     this.feedBackDiv.id = this.divid + "_feedback";
-    this.containerDiv.appendChild(document.createElement("br"));
     this.containerDiv.appendChild(this.feedBackDiv);
 };
 
@@ -328,7 +337,7 @@ FITB.prototype.populateDisplayFeed = function (index, given) {
 FITB.prototype.renderFITBFeedback = function () {
     if (this.correct) {
         $(this.feedBackDiv).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgCorrectHTML"));
-        $(this.feedBackDiv).attr("class", "alert alert-success");
+        $(this.feedBackDiv).attr("class", "alert alert-success fitb-feedback");
         for (var j = 0; j < this.blankArray.length; j++) {
             $(this.blankArray[j]).removeClass("input-validation-error");
         }
@@ -348,7 +357,7 @@ FITB.prototype.renderFITBFeedback = function () {
             this.feedBackDiv.innerHTML += this.displayFeed[i];
             this.feedBackDiv.appendChild(document.createElement("br"));
         }
-        $(this.feedBackDiv).attr("class", "alert alert-danger");
+        $(this.feedBackDiv).attr("class", "alert alert-danger fitb-feedback");
     }
 };
 

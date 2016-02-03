@@ -590,7 +590,9 @@ ActiveCode.prototype.createControls = function() {
 
     var instructionsLabel = document.createElement("span");
     $(instructionsLabel).addClass("activecode_instructions_label");
-    $(instructionsLabel).html("Suoritustulokset, ohjelmakoodivisualisoinnit sekä<br />mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle.");
+    $(instructionsLabel).html(
+        "Suoritustulokset, ohjelmakoodivisualisoinnit sekä mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle. " +
+        "Ohjelmakoodiin tehdyt muutokset katoavat sivulta poistuttaessa.");
     ctrlDiv.appendChild(instructionsLabel);
 
     $(this.outerDiv).prepend(ctrlDiv);
