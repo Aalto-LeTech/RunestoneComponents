@@ -58,13 +58,13 @@ var feedBack = function (elem, correct, feedbackText) {        // Displays feedb
     // elem is the Element in which to put the feedback
     if (correct) {
         $(elem).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgCorrectHTML"));
-        $(elem).attr("class", "alert alert-success");
+        $(elem).attr("class", "alert alert-success mchoice-feedback");
     } else {
         if (feedbackText === null) {
             feedbackText = "";
         }
         $(elem).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgIncorrectHTML") + feedbackText);
-        $(elem).attr("class", "alert alert-danger");
+        $(elem).attr("class", "alert alert-danger mchoice-feedback");
     }
 };
 
@@ -190,15 +190,20 @@ MultipleChoice.prototype.createMCForm = function () {
 };
 
 MultipleChoice.prototype.renderMCContainer = function () {
+    var questionDiv = document.createElement("div");
+    $(questionDiv).html(this.question);
+    $(questionDiv).addClass("mchoice-question");
+
     this.containerDiv = document.createElement("div");
-    $(this.containerDiv).html(this.question);
-    $(this.containerDiv).addClass("alert alert-warning");
+    $(this.containerDiv).addClass("alert alert-warning mchoice-container");
+    this.containerDiv.appendChild(questionDiv);
     this.containerDiv.id = this.divid;
 };
 
 MultipleChoice.prototype.renderMCForm = function () {
     this.optsForm = document.createElement("form");
     this.optsForm.id = this.divid + "_form";
+    $(this.optsForm).addClass("mchoice-form");
     $(this.optsForm).attr({
         "method": "get",
         "action": "",
@@ -244,7 +249,9 @@ MultipleChoice.prototype.renderMCFormOpts = function () {
 
         // Create the label for the input
         var label = document.createElement("label");
+        $(label).addClass("mchoice-label");
         var labelspan = document.createElement("span");
+        $(labelspan).addClass("mchoice-span");
         label.appendChild(input);
         label.appendChild(labelspan);
         //$(label).attr("for", optid);
@@ -270,7 +277,7 @@ MultipleChoice.prototype.renderMCFormButtons = function () {
     this.submitButton = document.createElement("button");
     this.submitButton.textContent = getLocalizedString(MChoiceJsLocalizationColl, "CaptionCheckMeButton");
     $(this.submitButton).attr({
-        "class": "btn btn-success",
+        "class": "btn btn-success mchoice-submit-button",
         "name": "do answer"
     });
     if (this.multipleanswers) {
@@ -289,7 +296,7 @@ MultipleChoice.prototype.renderMCFormButtons = function () {
     if (this.useRunestoneServices) {
         this.compareButton = document.createElement("button");
         $(this.compareButton).attr({
-            "class": "btn btn-default",
+            "class": "btn btn-default mchoice-compare-button",
             "id": this.divid + "_bcomp",
             "disabled": "",
             "name": "compare"
@@ -305,7 +312,11 @@ MultipleChoice.prototype.renderMCFormButtons = function () {
 MultipleChoice.prototype.renderMCfeedbackDiv = function () {
     this.feedBackDiv = document.createElement("div");
     this.feedBackDiv.id = this.divid + "_feedback";
-    this.containerDiv.appendChild(document.createElement("br"));
+
+    var lineBreak = document.createElement("br");
+    $(lineBreak).addClass("mchoice-feedback-separator");
+    this.containerDiv.appendChild(lineBreak);
+
     this.containerDiv.appendChild(this.feedBackDiv);
 };
 
@@ -464,7 +475,7 @@ MultipleChoice.prototype.renderMCMAFeedBack = function () {
 
     if (numCorrect === numNeeded && numNeeded === numGiven) {
         $(this.feedBackDiv).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgCorrectHTML") + "<br />" + feedbackText);
-        $(this.feedBackDiv).attr("class", "alert alert-success");
+        $(this.feedBackDiv).attr("class", "alert alert-success mchoice-feedback");
     } else {
         $(this.feedBackDiv).html(
             getLocalizedString(MChoiceJsLocalizationColl, "MsgIncorrectHTML") + " " +
@@ -472,7 +483,7 @@ MultipleChoice.prototype.renderMCMAFeedBack = function () {
             getLocalizedString(MChoiceJsLocalizationColl, "MsgMcmaFeedbackAndGot") + numCorrect +
             getLocalizedString(MChoiceJsLocalizationColl, "MsgMcmaFeedbackCorrectOf") + numNeeded +
             getLocalizedString(MChoiceJsLocalizationColl, "MsgMcmaFeedbackNeeded") + "<br /> " + feedbackText);
-        $(this.feedBackDiv).attr("class", "alert alert-danger");
+        $(this.feedBackDiv).attr("class", "alert alert-danger mchoice-feedback");
     }
 };
 
@@ -511,13 +522,13 @@ MultipleChoice.prototype.logMCMFsubmission = function () {
 MultipleChoice.prototype.renderMCMFFeedback = function (correct, feedbackText) {
     if (correct) {
         $(this.feedBackDiv).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgCorrectHTML") + feedbackText);
-        $(this.feedBackDiv).attr("class", "alert alert-success");
+        $(this.feedBackDiv).attr("class", "alert alert-success mchoice-feedback");
     } else {
         if (feedbackText == null) {
             feedbackText = "";
         }
         $(this.feedBackDiv).html(getLocalizedString(MChoiceJsLocalizationColl, "MsgIncorrectHTML") + feedbackText);
-        $(this.feedBackDiv).attr("class", "alert alert-danger");
+        $(this.feedBackDiv).attr("class", "alert alert-danger mchoice-feedback");
     }
 };
 

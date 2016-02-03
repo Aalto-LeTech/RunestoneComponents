@@ -1010,9 +1010,8 @@ ActiveCode.prototype.runProg = function() {
 
         $(this.eContainer).remove();
         Sk.configure({output : this.outputfun.bind(this),
-              read   : this.builtinRead,
+              read: this.builtinRead,
               python3: this.python3,
-              imageProxy : 'http://image.runestone.academy:8080/320x'
         });
         Sk.divid = this.divid;
         this.setTimeLimit();
