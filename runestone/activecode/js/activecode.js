@@ -606,18 +606,7 @@ ActiveCode.prototype.createOutput = function() {
     var outDiv = document.createElement("div");
     $(outDiv).addClass("ac_output col-md-6");
     $(outDiv).css("display", "none");
-
-    this.graphics = document.createElement('div');
-    this.graphics.id = this.divid + "_graphics";
-    $(this.graphics).addClass("ac-canvas");
-    $(this.graphics).css("display", "none");
-    outDiv.appendChild(this.graphics);
-
     this.outDiv = outDiv;
-    this.output = document.createElement('pre');
-    $(this.output).css("display", "none");
-    outDiv.appendChild(this.output);
-
     this.outerDiv.appendChild(outDiv);
 
     clearDiv = document.createElement("div");
@@ -988,38 +977,45 @@ ActiveCode.prototype.buildProg = function() {
 };
 
 ActiveCode.prototype.runProg = function() {
+        $(this.runButton).attr('disabled', 'disabled');
+
         var prog = this.buildProg();
 
         $(this.outDiv).css("display", "none");
-        $(this.output).css("display", "none");
+        $(this.outDiv).empty();
 
-        $(this.output).off("DOMNodeInserted");
-        $(this.output).empty();
+        this.graphics = document.createElement('div');
+        this.outDiv.appendChild(this.graphics);
+        this.graphics.id = this.divid + "_graphics";
+        $(this.graphics).addClass("ac-canvas");
+        $(this.graphics).css("display", "none");
+        $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
+            $(this.graphics).off("DOMNodeInserted");
+            $(this.outDiv).css("display", "block");
+            $(this.graphics).css("display", "block");
+            $(this.graphics).addClass("visible-ac-canvas");
+            $(this.graphics).slideDown({duration:300, queue:false});
+        }).bind(this));
+
+        this.output = document.createElement('pre');
+        this.outDiv.appendChild(this.output);
+        $(this.output).css("display", "none");
         $(this.output).on("DOMNodeInserted", (function(e) {
+            $(this.output).off("DOMNodeInserted");
             $(this.outDiv).css("display", "block");
             $(this.output).css("display", "inline-block");
             $(this.output).slideDown({duration:100, queue:false});
         }).bind(this));
 
-        $(this.graphics).off("DOMNodeInserted");
-        $(this.graphics).css("display", "none");
-        $(this.graphics).removeClass("visible-ac-canvas");
-        $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
-            $(this.outDiv).css("display", "block");
-            $(this.graphics).addClass("visible-ac-canvas");
-            $(this.graphics).slideDown({duration:300, queue:false});
-        }).bind(this));
-
-        $(this.eContainer).remove();
-        Sk.configure({output : this.outputfun.bind(this),
-              read: this.builtinRead,
-              python3: this.python3,
+        Sk.configure({
+            output : this.outputfun.bind(this),
+            read: this.builtinRead,
+            python3: this.python3,
         });
         Sk.divid = this.divid;
         this.setTimeLimit();
         (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = this.graphics;
         Sk.canvas = this.graphics.id; //todo: get rid of this here and in image
-        $(this.runButton).attr('disabled', 'disabled');
         //$(this.codeDiv).switchClass("col-md-12","col-md-6",{duration:500,queue:false});
         var myPromise = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
