@@ -588,11 +588,18 @@ ActiveCode.prototype.createControls = function() {
         $(butt).click((function() {new AudioTour(this.divid, this.editor.getValue(), 1, $(this.origElem).data("audio"))}).bind(this));
     }
 
+    var intructions =
+        "Suoritustulokset, ohjelmakoodivisualisoinnit sekä mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle. " +
+        "Ohjelmakoodiin tehdyt muutokset katoavat sivulta poistuttaessa.";
+    if ($(this.origElem).data("codelens")) {
+        intructions = intructions +
+            " Koodilinssin esittämä visualisaatio tuotetaan ulkopuolisella palvelimella, minkä vuoksi esimerkiksi ruuhkainen " +
+            "Internet sekä ongelmat kyseisen palvelimen toiminnassa saattavat estää Koodilinssin toiminnan."
+    }
+
     var instructionsLabel = document.createElement("span");
     $(instructionsLabel).addClass("activecode_instructions_label");
-    $(instructionsLabel).html(
-        "Suoritustulokset, ohjelmakoodivisualisoinnit sekä mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle. " +
-        "Ohjelmakoodiin tehdyt muutokset katoavat sivulta poistuttaessa.");
+    $(instructionsLabel).html(intructions);
     ctrlDiv.appendChild(instructionsLabel);
 
     $(this.outerDiv).prepend(ctrlDiv);
