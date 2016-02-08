@@ -616,6 +616,20 @@ ActiveCode.prototype.createOutput = function() {
     this.outDiv = outDiv;
     this.outerDiv.appendChild(outDiv);
 
+    this.graphics = document.createElement('div');
+    this.outDiv.appendChild(this.graphics);
+    this.graphics.id = this.divid + "_graphics";
+    $(this.graphics).addClass("ac-canvas");
+    $(this.graphics).css("display", "none");
+    $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
+        $(this.graphics).off("DOMNodeInserted");
+        $(this.outDiv).css("display", "block");
+        $(this.graphics).css("display", "block");
+        $(this.graphics).addClass("visible-ac-canvas");
+        $(this.graphics).slideDown({duration:300, queue:false});
+    }).bind(this));
+
+
     clearDiv = document.createElement("div");
     $(clearDiv).css("clear","both");  // needed to make parent div resize properly
     this.outerDiv.appendChild(clearDiv);
@@ -986,23 +1000,10 @@ ActiveCode.prototype.buildProg = function() {
 ActiveCode.prototype.runProg = function() {
         $(this.runButton).attr('disabled', 'disabled');
 
-        var prog = this.buildProg();
-
-        $(this.outDiv).css("display", "none");
-        $(this.outDiv).empty();
-
-        this.graphics = document.createElement('div');
-        this.outDiv.appendChild(this.graphics);
-        this.graphics.id = this.divid + "_graphics";
-        $(this.graphics).addClass("ac-canvas");
-        $(this.graphics).css("display", "none");
-        $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
-            $(this.graphics).off("DOMNodeInserted");
-            $(this.outDiv).css("display", "block");
-            $(this.graphics).css("display", "block");
-            $(this.graphics).addClass("visible-ac-canvas");
-            $(this.graphics).slideDown({duration:300, queue:false});
-        }).bind(this));
+        //$(this.outDiv).css("display", "none");
+        //$(this.outDiv).empty();
+        $(this.output).remove();
+        $(this.eContainer).remove();
 
         this.output = document.createElement('pre');
         this.outDiv.appendChild(this.output);
@@ -1014,6 +1015,8 @@ ActiveCode.prototype.runProg = function() {
             $(this.output).slideDown({duration:100, queue:false});
         }).bind(this));
 
+        var prog = this.buildProg();
+
         Sk.configure({
             output : this.outputfun.bind(this),
             read: this.builtinRead,
@@ -1021,7 +1024,9 @@ ActiveCode.prototype.runProg = function() {
         });
         Sk.divid = this.divid;
         this.setTimeLimit();
-        (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = this.graphics;
+
+        var tg = (Sk.TurtleGraphics || (Sk.TurtleGraphics = {}));
+        tg.target = this.graphics;
         Sk.canvas = this.graphics.id; //todo: get rid of this here and in image
         //$(this.codeDiv).switchClass("col-md-12","col-md-6",{duration:500,queue:false});
         var myPromise = Sk.misceval.asyncToPromise(function() {
