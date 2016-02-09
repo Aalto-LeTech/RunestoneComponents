@@ -294,9 +294,10 @@ var activeCodeLocalizationColl = {
 
         ErrorFromCodeRun_TimeLimitErrorFix:
                 "Kannattaa lisätä ohjelmaan sopiviin kohtiin tulostuslauseita, joiden tulosteista voi päätellä, ettei ohjelmassa ole päättymätöntä silmukkaa. Jos " +
-                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa kutsulla sys.setExecutionLimit(<i>millisekuntimäärä</i>): " +
-                "Esimerkiksi 60 000 ms vastaa minuuttia, ja 120 000 ms vastaavasti kahta minuuttia. Edellä esitellyn kutsun tarvitsema <i>sys</i>-moduuli " +
-                "täytyy luonnollisesti ottaa käyttöön ohjelman alkuun sijoitettavalla komennolla <i>import sys</i>",
+                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa kutsulla " +
+                "<i>sys.setExecutionLimit(&lt;haluttu kestoraja millisekunteina&gt;)</i>: Esimerkiksi 60 000 ms vastaa minuuttia, ja 120 000 ms " +
+                "vastaavasti kahta minuuttia. Edellä esitellyn kutsun tarvitsema <i>sys</i>-moduuli " +
+                "täytyy luonnollisesti ottaa käyttöön ohjelman alkuun sijoitettavalla komennolla <i>import sys</i>.",
 
         ErrorFromCodeRun_Error:
                 "Ohjelman suoritus kestää liian pitkään. Tämän oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia. " +
@@ -594,7 +595,8 @@ ActiveCode.prototype.createControls = function() {
 
     var intructions =
         "Suoritustulokset, ohjelmakoodivisualisoinnit sekä mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle. " +
-        "Ohjelmakoodiin tehdyt muutokset katoavat sivulta poistuttaessa.";
+        "Ohjelmakoodiin tehdyt muutokset katoavat sivulta poistuttaessa. Hitailla laitteilla täysin kelvollistenkin ohjelmien " +
+        "suoritus saattaa kestää jopa useamman minuutin, ja selainkin saattaa välillä kysyä, halutaanko ohjelman suorituksen jatkuvan.";
     if ($(this.origElem).data("codelens")) {
         intructions = intructions +
             " Koodilinssin esittämä visualisaatio tuotetaan ulkopuolisella palvelimella, minkä vuoksi esimerkiksi ruuhkainen " +
