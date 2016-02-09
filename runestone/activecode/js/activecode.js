@@ -287,12 +287,16 @@ var activeCodeLocalizationColl = {
         ErrorFromCodeRun_TokenErrorFix: "Kannattaa varmistaa, että ohjelman jokaisella avaavalla sulkeella on vastaava sulkeva pari ja että ne ovat oikeassa järjestyksessä.",
 
         ErrorFromCodeRun_TimeLimitError:
-                "Ohjelman suoritus kestää liian pitkään. Tämän oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia. " +
-                "Eräs syy tähän virheeseen on, että ohjelmassa on päättymätön silmukka.",
+                "Ohjelmansuorituksen kestolle on asetettu turvaraja, joka on tällä suorituskerralla ylitetty. Nopeahkolla yleiskäyttöisellä tietokoneella tämän " +
+                "oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia, joskin erityisesti kuvia ja kilpikonnia hyödyntävien " +
+                "esimerkkien suoritus voi kestää pidempäänkin erityisesti hitaammilla tietokoneilla, kuten tableteilla.<br/><br/>On myös mahdollista, että tämä " +
+                "ongelma johtuu virheellisestä ohjelmasta. Tässä tapauksessa tyypillinen syy tähän virheeseen on, että ohjelmassa on päättymätön silmukka.",
 
         ErrorFromCodeRun_TimeLimitErrorFix:
                 "Kannattaa lisätä ohjelmaan sopiviin kohtiin tulostuslauseita, joiden tulosteista voi päätellä, ettei ohjelmassa ole päättymätöntä silmukkaa. Jos " +
-                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa kutsulla sys.setExecutionLimit(<i>millisekuntimäärä</i>).",
+                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa kutsulla sys.setExecutionLimit(<i>millisekuntimäärä</i>): " +
+                "Esimerkiksi 60 000 ms vastaa minuuttia, ja 120 000 ms vastaavasti kahta minuuttia. Edellä esitellyn kutsun tarvitsema <i>sys</i>-moduuli " +
+                "täytyy luonnollisesti ottaa käyttöön ohjelman alkuun sijoitettavalla komennolla <i>import sys</i>",
 
         ErrorFromCodeRun_Error:
                 "Ohjelman suoritus kestää liian pitkään. Tämän oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia. " +
