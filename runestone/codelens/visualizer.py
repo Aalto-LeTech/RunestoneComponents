@@ -87,7 +87,7 @@ $(document).ready(function() {
     try {
         %(divid)s_vis = new ExecutionVisualizer('%(divid)s',%(divid)s_trace,
                                     {embeddedMode: %(embedded)s,
-                                    verticalStack: true,
+                                    verticalStack: false,
                                     heightChangeCallback: redrawAllVisualizerArrows,
                                     codeDivWidth: 500,
                                     lang : '%(python)s',
