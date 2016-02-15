@@ -198,6 +198,13 @@ Parsons.prototype.setButtonFunctions = function () {
         trashul.css("min-width", minWidth + "px");
         sortableul.css("min-width", minWidth + "px");
         $(this.messageDiv).hide();
+
+        plusReq(this.divid + "-hiddenlog", 0, 0, {
+            'event_source': 'parsons',
+            'action': 'reset',
+            'divid': this.divid,
+            'page_url': window.location.href,
+        });
     }.bind(this));
     $pjQ(this.checkButt).click(function (event) {
         event.preventDefault();
@@ -207,6 +214,26 @@ Parsons.prototype.setButtonFunctions = function () {
         localStorage.setItem(this.divid + "-trash", hash);
 
         this.pwidget.getFeedback();
+
+        var points = this.pwidget.feedback.success ? 1 : 0;
+        plusReq(this.divid, points, 1, {
+            'event_source': 'parsons',
+            'action': 'evaluate',
+            'log': this.pwidget.feedback.log_errors,
+            'tests': this.pwidget.feedback.tests,
+            'succeeded': this.pwidget.feedback.success,
+            'feedback': this.pwidget.feedback.html,
+            'user_actions': this.pwidget.user_actions,
+            'state_path': this.pwidget.state_path,
+            'states': this.pwidget.states,
+            'divid': this.divid,
+            'page_url': window.location.href,
+        });
+
+         this.pwidget.user_actions = [];
+         this.pwidget.state_path = [];
+         this.pwidget.states = {};
+
         $(this.messageDiv).fadeIn(100);
 
     }.bind(this));
@@ -233,7 +260,8 @@ Parsons.prototype.createParsonsWidget = function () {
         "max_wrong_lines": 1,
         "trash_label": getLocalizedString(runestoneParsonsTranslations, "trash_label"),
         "solution_label": getLocalizedString(runestoneParsonsTranslations, "solution_label"),
-        "feedback_cb": this.displayErrors.bind(this)
+        "feedback_cb": this.displayErrors.bind(this),
+        "divid": this.divid,
     });
 
     this.pwidget.init($pjQ(this.origDiv).text());

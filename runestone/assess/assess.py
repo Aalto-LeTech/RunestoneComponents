@@ -78,6 +78,7 @@ class AddButton(Directive):
             """
 
         TEMPLATE_START = '''
+            <div data-ref-id="%(divid)s" data-aplus-exercise="1"></div>
             <div id="%(divid)s" class="alert alert-warning">
             <form name="%(divid)s_form" method="get" action="" onsubmit="return false;">
             '''

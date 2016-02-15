@@ -27,7 +27,8 @@ def setup(app):
     app.add_stylesheet('video.css')
 
 CODE = """\
-<div id="%(divid)s" class="video_popup" >
+<div data-ref-id="%(divid)s" data-aplus-exercise="1" style="display: none;"></div>
+<div id="%(divid)s" class="video_popup">
 <video %(controls)s %(preload)s %(loop)s poster="%(thumb)s">
     %(sources)s
     No supported video types
@@ -54,18 +55,32 @@ POPUP = """\
 INLINE = """\
 <script>
    jQuery(function($) {
-      var rb = new RunestoneBase();
+      //var rb = new RunestoneBase();
       $('#%(divid)s_thumb').click(function(e) {
          $('#%(divid)s').show();
          $('#%(divid)s_thumb').hide();
-         rb.logBookEvent({'event':'video','act':'play','div_id': '%(divid)s'});
+         //rb.logBookEvent({'event':'video','act':'play','div_id': '%(divid)s'});
          // Log the run event
+
+        plusReq('%(divid)s', 0, 0, {
+            'event_source': 'video',
+            'action': 'play',
+            'divid': '%(divid)s',
+            'page_url': window.location.href,
+        });
       });
       $('#%(divid)s video').one("click", function(){
         this.play();
       });
       $('#%(divid)s video').one("play", function(){
-        rb.logBookEvent({'event':'video','act':'play','div_id': '%(divid)s'});
+        //rb.logBookEvent({'event':'video','act':'play','div_id': '%(divid)s'});
+
+        plusReq('%(divid)s', 0, 0, {
+            'event_source': 'video',
+            'action': 'play',
+            'divid': '%(divid)s',
+            'page_url': window.location.href,
+        });
       });
    });
 </script>

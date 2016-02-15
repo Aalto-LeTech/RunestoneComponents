@@ -185,7 +185,7 @@ var activeCodeLocalizationColl = {
         SaveButtonCaption: "Tallenna",
         FeedbackButtonCaption: "Näytä palaute",
         ShowHideCodeButtonCaption: "Näytä/piilota ohjelmakoodi",
-        CodeLensButtonCaptionShow: "Näytä Koodilinssi",
+        CodeLensButtonCaptionShow: "Näytä Koodilinssissä",
         CodeLensButtonCaptionShowIn: "Näytä Koodilinssissä",
         CodeLensButtonCaptionHide: "Piilota Koodilinssi",
         CodeCoachButtonCaption: "Näytä Koodausapuri",
@@ -489,7 +489,13 @@ ActiveCode.prototype.createEditor = function(index) {
         if (editor.acEditEvent == false || editor.acEditEvent === undefined) {
             $(editor.getWrapperElement()).css('border-top', '2px solid #b43232');
             $(editor.getWrapperElement()).css('border-bottom', '2px solid #b43232');
-            this.logBookEvent({'event': 'activecode', 'act': 'edit', 'div_id': this.divid});
+
+
+
+
+            // this.logBookEvent({'event': 'activecode', 'act': 'edit', 'div_id': this.divid});
+
+
     }
         editor.acEditEvent = true;
         }).bind(this));  // use bind to preserve *this* inside the on handler.
@@ -512,54 +518,54 @@ ActiveCode.prototype.createControls = function() {
     this.runButton = butt;
     $(butt).click(this.runProg.bind(this));
 
-    // Save
-    if (this.useRunestoneServices) {
-        butt = document.createElement("button");
-        $(butt).addClass("ac_opt btn btn-default");
-        $(butt).text(getLocalizedString(activeCodeLocalizationColl, "SaveButtonCaption"));
-        $(butt).css("margin-left", "10px");
-        this.saveButton = butt;
-        this.saveButton.onclick = this.saveEditor.bind(this);
-        ctrlDiv.appendChild(butt);
-        if (this.hidecode) {
-            $(butt).css("display", "none");
-        }
-    }
-    // Load
-    if (this.useRunestoneServices) {
-        butt = document.createElement("button");
-        $(butt).addClass("ac_opt btn btn-default");
-        $(butt).text(getLocalizedString(activeCodeLocalizationColl, "LoadButtonCaption"));
-        $(butt).css("margin-left", "10px");
-        this.loadButton = butt;
-        this.loadButton.onclick = this.loadEditor.bind(this);
-        ctrlDiv.appendChild(butt);
-        if (this.hidecode) {
-            $(butt).css("display", "none");
-        }
-    }
-    if ($(this.origElem).data('gradebutton')) {
-        butt = document.createElement("button");
-        $(butt).addClass("ac_opt btn btn-default");
-        $(butt).text(getLocalizedString(activeCodeLocalizationColl, "FeedbackButtonCaption"));
-        $(butt).css("margin-left","10px");
-        this.gradeButton = butt;
-        ctrlDiv.appendChild(butt);
-        $(butt).click(this.createGradeSummary.bind(this));
-    }
-    // Show/Hide Code
-    if (this.hidecode) {
-        butt = document.createElement("button");
-        $(butt).addClass("ac_opt btn btn-default");
-        $(butt).text(getLocalizedString(activeCodeLocalizationColl, "ShowHideCodeButtonCaption"));
-        $(butt).css("margin-left", "10px");
-        this.showHideButt = butt;
-        ctrlDiv.appendChild(butt);
-        $(butt).click( (function() { $(this.codeDiv).toggle();
-        $(this.loadButton).toggle();
-        $(this.saveButton).toggle();
-        }).bind(this));
-    }
+    // // Save
+    // if (this.useRunestoneServices) {
+    //     butt = document.createElement("button");
+    //     $(butt).addClass("ac_opt btn btn-default");
+    //     $(butt).text(getLocalizedString(activeCodeLocalizationColl, "SaveButtonCaption"));
+    //     $(butt).css("margin-left", "10px");
+    //     this.saveButton = butt;
+    //     this.saveButton.onclick = this.saveEditor.bind(this);
+    //     ctrlDiv.appendChild(butt);
+    //     if (this.hidecode) {
+    //         $(butt).css("display", "none");
+    //     }
+    // }
+    // // Load
+    // if (this.useRunestoneServices) {
+    //     butt = document.createElement("button");
+    //     $(butt).addClass("ac_opt btn btn-default");
+    //     $(butt).text(getLocalizedString(activeCodeLocalizationColl, "LoadButtonCaption"));
+    //     $(butt).css("margin-left", "10px");
+    //     this.loadButton = butt;
+    //     this.loadButton.onclick = this.loadEditor.bind(this);
+    //     ctrlDiv.appendChild(butt);
+    //     if (this.hidecode) {
+    //         $(butt).css("display", "none");
+    //     }
+    // }
+    // if ($(this.origElem).data('gradebutton')) {
+    //     butt = document.createElement("button");
+    //     $(butt).addClass("ac_opt btn btn-default");
+    //     $(butt).text(getLocalizedString(activeCodeLocalizationColl, "FeedbackButtonCaption"));
+    //     $(butt).css("margin-left","10px");
+    //     this.gradeButton = butt;
+    //     ctrlDiv.appendChild(butt);
+    //     $(butt).click(this.createGradeSummary.bind(this));
+    // }
+    // // Show/Hide Code
+    // if (this.hidecode) {
+    //     butt = document.createElement("button");
+    //     $(butt).addClass("ac_opt btn btn-default");
+    //     $(butt).text(getLocalizedString(activeCodeLocalizationColl, "ShowHideCodeButtonCaption"));
+    //     $(butt).css("margin-left", "10px");
+    //     this.showHideButt = butt;
+    //     ctrlDiv.appendChild(butt);
+    //     $(butt).click( (function() { $(this.codeDiv).toggle();
+    //     $(this.loadButton).toggle();
+    //     $(this.saveButton).toggle();
+    //     }).bind(this));
+    // }
 
     // CodeLens
     if ($(this.origElem).data("codelens")) {
@@ -572,31 +578,31 @@ ActiveCode.prototype.createControls = function() {
         $(butt).click(this.showCodelens.bind(this));
     }
     // CodeCoach
-    if (this.useRunestoneServices && $(this.origElem).data("coach")) {
-        butt = document.createElement("button");
-        $(butt).addClass("ac_opt btn btn-default");
-        $(butt).text(getLocalizedString(activeCodeLocalizationColl, "CodeCoachButtonCaption"));
-        $(butt).css("margin-left", "10px");
-        this.coachButton = butt;
-        ctrlDiv.appendChild(butt);
-        $(butt).click(this.showCodeCoach.bind(this));
-    }
-
-    // Audio Tour
-    if ($(this.origElem).data("audio")) {
-        butt = document.createElement("button");
-        $(butt).addClass("ac_opt btn btn-default");
-        $(butt).text(getLocalizedString(activeCodeLocalizationColl, "AudioTourButtonCaption"));
-        $(butt).css("margin-left", "10px");
-        this.atButton = butt;
-        ctrlDiv.appendChild(butt);
-        $(butt).click((function() {new AudioTour(this.divid, this.editor.getValue(), 1, $(this.origElem).data("audio"))}).bind(this));
-    }
+    // if (this.useRunestoneServices && $(this.origElem).data("coach")) {
+    //     butt = document.createElement("button");
+    //     $(butt).addClass("ac_opt btn btn-default");
+    //     $(butt).text(getLocalizedString(activeCodeLocalizationColl, "CodeCoachButtonCaption"));
+    //     $(butt).css("margin-left", "10px");
+    //     this.coachButton = butt;
+    //     ctrlDiv.appendChild(butt);
+    //     $(butt).click(this.showCodeCoach.bind(this));
+    // }
+    //
+    // // Audio Tour
+    // if ($(this.origElem).data("audio")) {
+    //     butt = document.createElement("button");
+    //     $(butt).addClass("ac_opt btn btn-default");
+    //     $(butt).text(getLocalizedString(activeCodeLocalizationColl, "AudioTourButtonCaption"));
+    //     $(butt).css("margin-left", "10px");
+    //     this.atButton = butt;
+    //     ctrlDiv.appendChild(butt);
+    //     $(butt).click((function() {new AudioTour(this.divid, this.editor.getValue(), 1, $(this.origElem).data("audio"))}).bind(this));
+    // }
 
     var intructions =
         "Suoritustulokset, ohjelmakoodivisualisoinnit sekä mahdolliset virheilmoitukset avautuvat koodinmuokkausruudun alle. " +
         "Ohjelmakoodiin tehdyt muutokset katoavat sivulta poistuttaessa. Hitailla laitteilla täysin kelvollistenkin ohjelmien " +
-        "suoritus saattaa kestää jopa useamman minuutin, ja selainkin saattaa välillä kysyä, halutaanko ohjelman suorituksen jatkuvan.";
+        "suoritus saattaa kestää jopa useamman minuutin, ja Internet-selainkin saattaa välillä kysyä, halutaanko ohjelman suorituksen jatkuvan.";
     if ($(this.origElem).data("codelens")) {
         intructions = intructions +
             " Koodilinssin esittämä visualisaatio tuotetaan ulkopuolisella palvelimella, minkä vuoksi esimerkiksi ruuhkainen " +
@@ -630,7 +636,7 @@ ActiveCode.prototype.createOutput = function() {
     $(this.graphics).on("DOMNodeInserted", 'canvas', (function(e) {
         $(this.graphics).off("DOMNodeInserted");
         $(this.outDiv).css("display", "block");
-        $(this.graphics).css("display", "block");
+        $(this.graphics).css("display", "inline-block");
         $(this.graphics).addClass("visible-ac-canvas");
         $(this.graphics).slideDown({duration:300, queue:false});
     }).bind(this));
@@ -641,7 +647,7 @@ ActiveCode.prototype.createOutput = function() {
     this.outerDiv.appendChild(clearDiv);
 
     var lensDiv = document.createElement("div");
-    $(lensDiv).addClass("col-md-6");
+    $(lensDiv).addClass("ac_codelens_div col-md-6");
     $(lensDiv).css("display","none");
     this.codelens = lensDiv;
     this.outerDiv.appendChild(lensDiv);
@@ -718,10 +724,10 @@ ActiveCode.prototype.saveEditor = function() {
     });
     jQuery.post(eBookConfig.ajaxURL + 'saveprog', data, saveSuccess);
     if (this.editor.acEditEvent) {
-        this.logBookEvent({'event': 'activecode', 'act': 'edit', 'div_id': this.divid}); // Log the run event
+        //this.logBookEvent({'event': 'activecode', 'act': 'edit', 'div_id': this.divid}); // Log the run event
         this.editor.acEditEvent = false;
     }
-    this.logBookEvent({'event': 'activecode', 'act': 'save', 'div_id': this.divid}); // Log the run event
+    //this.logBookEvent({'event': 'activecode', 'act': 'save', 'div_id': this.divid}); // Log the run event
 
 };
 
@@ -756,7 +762,7 @@ ActiveCode.prototype.loadEditor = function() {
     if (this.sid !== undefined) {
         data['sid'] = this.sid;
     }
-    this.logBookEvent({'event': 'activecode', 'act': 'load', 'div_id': this.divid}); // Log the run event
+    //this.logBookEvent({'event': 'activecode', 'act': 'load', 'div_id': this.divid}); // Log the run event
     jQuery.get(eBookConfig.ajaxURL + 'getprog', data, loadEditor);
 
 };
@@ -799,25 +805,27 @@ ActiveCode.prototype.createGradeSummary = function() {
     jQuery.get(eBookConfig.ajaxURL + 'getassignmentgrade', data, showGradeSummary);
 };
 
-ActiveCode.prototype.hideCodelens = function(button, div_id) {
-    this.codelens.style.display = 'none';
-};
-
 ActiveCode.prototype.showCodelens = function() {
-
-    if (this.codelens.style.display == 'none') {
-        this.codelens.style.display = 'block';
-        this.clButton.innerText = getLocalizedString(activeCodeLocalizationColl, "CodeLensButtonCaptionHide");
+    if ($(this.codelens).css('display') == 'none') {
+        $(this.codelens).css('display', 'block');
+        $(this.clButton).html(getLocalizedString(activeCodeLocalizationColl, "CodeLensButtonCaptionHide"));
     } else {
-        this.codelens.style.display = "none";
-        this.clButton.innerText = getLocalizedString(activeCodeLocalizationColl, "CodeLensButtonCaptionShowIn");
-        return;
+        $(this.codelens).css('display', 'none');
+        $(this.clButton).html(getLocalizedString(activeCodeLocalizationColl, "CodeLensButtonCaptionShowIn"));
     }
 
-    var cl = this.codelens.firstChild;
-    if (cl) {
-        div.removeChild(cl);
-    }
+    plusReq(this.divid + "-hiddenlog", 0, 0, {
+        'event_source': 'codelens',
+        'action': $(this.codelens).css('display') == 'block' ? 'shown' : 'hidden',
+        'divid': this.divid,
+        'page_url': window.location.href,
+    });
+
+    $(this.codelens).empty();
+
+    if ($(this.codelens).css('display') == 'none')
+        return;
+
     var code = this.editor.getValue();
     var myVars = {};
     myVars.code = code;
@@ -847,11 +855,12 @@ ActiveCode.prototype.showCodelens = function() {
     //myIframe.setAttribute("src",srcURL)
     myIframe.src = embedUrlStr;
     this.codelens.appendChild(myIframe);
-    this.logBookEvent({
-        'event': 'codelens',
-        'act': 'view',
-        'div_id': this.divid
-    });
+
+    // this.logBookEvent({
+    //     'event': 'codelens',
+    //     'act': 'view',
+    //     'div_id': this.divid
+    // });
 
 };
 
@@ -883,11 +892,11 @@ ActiveCode.prototype.showCodeCoach = function(div_id) {
     myIframe.style.width = "100%";
     myIframe.src = srcURL;
     this.codecoach.appendChild(myIframe);
-    logBookEvent({
-        'event': 'coach',
-        'act': 'view',
-        'div_id': this.divid
-    });
+    // logBookEvent({
+    //     'event': 'coach',
+    //     'act': 'view',
+    //     'div_id': this.divid
+    // });
 };
 
 
@@ -919,6 +928,14 @@ ActiveCode.prototype.addErrorMessage = function(err) {
     errFix.innerHTML = getLocalizedString(activeCodeLocalizationColl, "ErrorFromCodeRun_" + errName + 'Fix');
     var moreInfo = '../ErrorHelp/' + errName.toLowerCase() + '.html';
     //console.log("Runtime Error: " + err.toString());
+
+    plusReq(this.divid + "-hiddenlog", 0, 0, {
+        'event_source': 'skulpt',
+        'action': 'thrown_error',
+        'error_text': errString,
+        'divid': this.divid,
+        'page_url': window.location.href,
+    });
 
     /* $(this.output).css("display", "block"); */
     $(this.eContainer).slideDown({duration: 500, easing: "easeOutQuint", queue: false});
@@ -1022,6 +1039,14 @@ ActiveCode.prototype.runProg = function() {
         }).bind(this));
 
         var prog = this.buildProg();
+
+        plusReq(this.divid, 1, 1, {
+            'event_source': 'activecode',
+            'action': 'run',
+            'code': prog,
+            'divid': this.divid,
+            'page_url': window.location.href,
+        });
 
         Sk.configure({
             output : this.outputfun.bind(this),
@@ -1269,7 +1294,7 @@ function AudioTour (divid, code, bnum, audio_text) {
             this.elem.pause();
         }
         //log change to db
-        this.logBookEvent({'event': 'Audio', 'act': 'closeWindow', 'div_id': divid});
+        //this.logBookEvent({'event': 'Audio', 'act': 'closeWindow', 'div_id': divid});
         $('.modal-profile').fadeOut("slow");
         $('.modal-lightsout').fadeOut("slow");
         document.body.removeChild(tourdiv);
@@ -1354,7 +1379,7 @@ AudioTour.prototype.tour = function(divid, audio_type, bcount) {
     $('#status').html(getLocalizedString(activeCodeLocalizationColl, "InformAudioTourStartingTour") + " " + name);
 
     //log tour type to db
-    this.logBookEvent({'event': 'Audio', 'act': name, 'div_id': divid});
+    //this.logBookEvent({'event': 'Audio', 'act': name, 'div_id': divid});
 
     var max = atype.length;
     var str = "";
@@ -1415,7 +1440,7 @@ AudioTour.prototype.firstAudio = function() {
     this.handlePlaying();
 
     //log change to db
-    this.logBookEvent({'event': 'Audio', 'act': 'first', 'div_id': this.theDivid});
+    //this.logBookEvent({'event': 'Audio', 'act': 'first', 'div_id': this.theDivid});
 
 
     // move to the first audio
@@ -1435,7 +1460,7 @@ AudioTour.prototype.prevAudio = function() {
         this.handlePlaying();
 
         //log change to db
-        this.logBookEvent({'event': 'Audio', 'act': 'prev', 'div_id': this.theDivid});
+        //this.logBookEvent({'event': 'Audio', 'act': 'prev', 'div_id': this.theDivid});
 
 
         // move to previous to the current (but the current index has moved to the next)
@@ -1453,7 +1478,7 @@ AudioTour.prototype.nextAudio = function() {
     this.handlePlaying();
 
     //log change to db
-    this.logBookEvent({'event': 'Audio', 'act': 'next', 'div_id': this.theDivid});
+    //this.logBookEvent({'event': 'Audio', 'act': 'next', 'div_id': this.theDivid});
 
     // if not at the end
     if (this.currIndex < (this.len - 1)) {
@@ -1472,7 +1497,7 @@ AudioTour.prototype.lastAudio = function() {
     this.handlePlaying();
 
     //log change to db
-    this.logBookEvent({'event': 'Audio', 'act': 'last', 'div_id': this.theDivid});
+    //this.logBookEvent({'event': 'Audio', 'act': 'last', 'div_id': this.theDivid});
 
     // move to the last audio
     this.currIndex = this.len - 1;
@@ -1593,7 +1618,7 @@ AudioTour.prototype.pauseAndPlayAudio = function() {
         document.getElementById("pause_audio").src = "../_static/pause.png";
         document.getElementById("pause_audio").title = getLocalizedString(activeCodeLocalizationColl, "LabelAudioTourBtnPauseCurrent");
         //log change to db
-        this.logBookEvent({'event': 'Audio', 'act': 'play', 'div_id': this.theDivid});
+        //this.logBookEvent({'event': 'Audio', 'act': 'play', 'div_id': this.theDivid});
     }
 
     // if audio was this.playing pause it
@@ -1602,7 +1627,7 @@ AudioTour.prototype.pauseAndPlayAudio = function() {
         document.getElementById("pause_audio").src = "../_static/play.png";
         document.getElementById("pause_audio").title = getLocalizedString(activeCodeLocalizationColl, "LabelAudioTourBtnPlayPaused");
         //log change to db
-        this.logBookEvent({'event': 'Audio', 'act': 'pause', 'div_id': this.theDivid});
+        //this.logBookEvent({'event': 'Audio', 'act': 'pause', 'div_id': this.theDivid});
     }
 
 };
@@ -1768,7 +1793,7 @@ LiveCode.prototype.runProg = function() {
             } else {
                 logresult = result.outcome;
             }
-            this.logRunEvent({'div_id': this.divid, 'code': source, 'errinfo': logresult, 'event':'livecode'});
+            //this.logRunEvent({'div_id': this.divid, 'code': source, 'errinfo': logresult, 'event':'livecode'});
             switch (result.outcome) {
                 case 15:
                     $(odiv).html(result.stdout.replace(/\n/g, "<br>"));

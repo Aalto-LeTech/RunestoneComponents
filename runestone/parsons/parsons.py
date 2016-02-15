@@ -28,12 +28,20 @@ def setup(app):
     app.add_stylesheet('parsons.css')
     app.add_stylesheet('lib/prettify.css')
 
-    app.add_javascript('lib/jquery.min.js')
+    # app.add_javascript('lib/jquery.min.js')
+
+
+    # jQuery UI updated to newer version to achieve compatibility with A+
     app.add_javascript('lib/jquery-ui.min.js')
+
+
     app.add_javascript('lib/jquery.ui.touch-punch.min.js')
     app.add_javascript('lib/prettify.js')
+
     app.add_javascript('lib/underscore-min.js')
+
     app.add_javascript('lib/lis.js')
+
     app.add_javascript('parsons_setup.js')
     app.add_javascript('parsons.js')
     app.add_javascript('parsons-noconflict.js')
@@ -79,9 +87,10 @@ Example:
         """
 
         TEMPLATE = '''
-    <pre data-component="parsons" id="%(divid)s">
-        <span data-question>%(qnumber)s: %(instructions)s</span>%(code)s</pre>
-    '''
+<div data-ref-id="%(divid)s" data-aplus-exercise="1"></div>
+<div data-ref-id="%(divid)s-hiddenlog" data-aplus-exercise="1" style="display: none;"></div>
+<pre data-component="parsons" id="%(divid)s"><span data-question>%(qnumber)s: %(instructions)s</span>%(code)s</pre>
+'''
 
         self.options['divid'] = self.arguments[0]
         self.options['qnumber'] = self.getNumber()

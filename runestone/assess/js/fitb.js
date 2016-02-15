@@ -224,20 +224,20 @@ FITB.prototype.renderFITBButtons = function () {
     $(lineBreak).addClass("fitb-separator");
     this.containerDiv.appendChild(lineBreak);
     this.containerDiv.appendChild(this.submitButton);
-    if (this.useRunestoneServices) {
-        this.compareButton = document.createElement("button");    // Compare me button
-        $(this.compareButton).attr({
-            "class": "btn btn-default fitb-compare-button",
-            "id": this.origElem.id + "_bcomp",
-            "disabled": "",
-            "name": "compare"
-        });
-        this.compareButton.textContent = getLocalizedString(MChoiceJsLocalizationColl, "CaptionCompareMeButton");
-        this.compareButton.addEventListener("click", function () {
-            this.compareFITBAnswers();
-        }.bind(this), false);
-        this.containerDiv.appendChild(this.compareButton);
-    }
+    // if (this.useRunestoneServices) {
+    //     this.compareButton = document.createElement("button");    // Compare me button
+    //     $(this.compareButton).attr({
+    //         "class": "btn btn-default fitb-compare-button",
+    //         "id": this.origElem.id + "_bcomp",
+    //         "disabled": "",
+    //         "name": "compare"
+    //     });
+    //     this.compareButton.textContent = getLocalizedString(MChoiceJsLocalizationColl, "CaptionCompareMeButton");
+    //     this.compareButton.addEventListener("click", function () {
+    //         this.compareFITBAnswers();
+    //     }.bind(this), false);
+    //     this.containerDiv.appendChild(this.compareButton);
+    // }
 
     lineBreak = document.createElement("div");
     $(lineBreak).addClass("fitb-separator");
@@ -287,9 +287,22 @@ FITB.prototype.checkFITBStorage = function () {
     // Starts chain of functions which ends with feedBack() displaying feedback to user
     this.evaluateAnswers();
     this.renderFITBFeedback();
-    var answerInfo = "answer:" + this.given_arr + ":" + (this.isCorrect ? "correct" : "no");
-    this.logBookEvent({"event": "fillb", "act": answerInfo, "div_id": this.divid});
-    this.enableCompareButton.disabled = false;
+
+    var points = this.correct ? 1 : 0;
+
+    plusReq(this.divid, points, 1, {
+        'event_source': 'fitb',
+        'action': 'evaluate',
+        'given_answers': this.given_arr,
+        'evaluation_results': this.isCorrectArray,
+        'succeeded': this.isCorrect,
+        'divid': this.divid,
+        'page_url': window.location.href,
+    });
+
+    //var answerInfo = "answer:" + this.given_arr + ":" + (this.isCorrect ? "correct" : "no");
+    //this.logBookEvent({"event": "fillb", "act": answerInfo, "div_id": this.divid});
+    //this.enableCompareButton.disabled = false;
 };
 FITB.prototype.evaluateAnswers = function () {
     this.given_arr = [];

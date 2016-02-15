@@ -123,6 +123,7 @@ class MChoice(Assessment):
             ...
             """
         TEMPLATE_START = '''
+            <div data-ref-id="%(divid)s" data-aplus-exercise="1"></div>
             <ul data-component="multiplechoice" data-multipleanswers="%(multipleAnswers)s" %(random)s id="%(divid)s">
             '''
 

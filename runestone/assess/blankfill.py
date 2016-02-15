@@ -47,7 +47,7 @@ def visit_fitb_node(self,node):
     res = node.template_start % node.fitb_options
 
     self.body.append(res)
-        
+
 
 def depart_fitb_node(self,node):
     fbl = []
@@ -82,13 +82,13 @@ class FillInTheBlank(Assessment):
         'feedback':directives.unchanged,
         'feedback1':directives.unchanged,
         'feedback2':directives.unchanged,
-        'feedback3':directives.unchanged,                   
-        'feedback4':directives.unchanged,  
+        'feedback3':directives.unchanged,
+        'feedback4':directives.unchanged,
         'blankid':directives.unchanged,
         'iscode':directives.flag,
         'casei':directives.flag  # case insensitive matching
     }
-    
+
     def run(self):
         """
             process the fillintheblank directive and generate html for output.
@@ -102,8 +102,9 @@ class FillInTheBlank(Assessment):
             Question text
             ...
             """
-        
+
         TEMPLATE_START = '''
+        <div data-ref-id="%(divid)s" data-aplus-exercise="1"></div>
         <p data-component="fillintheblank" data-casei="%(casei)s" id="%(divid)s">%(bodytext)s
         <span data-answer id="%(divid)s_answer">%(correct)s</span>
             '''
@@ -115,7 +116,7 @@ class FillInTheBlank(Assessment):
 
         TEMPLATE_END = '''
         </p>
-            '''   
+            '''
 
         super(FillInTheBlank,self).run()
 
@@ -127,5 +128,3 @@ class FillInTheBlank(Assessment):
         self.state.nested_parse(self.content, self.content_offset, fitbNode)
 
         return [fitbNode]
-
-

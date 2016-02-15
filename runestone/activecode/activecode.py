@@ -55,12 +55,6 @@ def setup(app):
 
 
 
-TEMPLATE = """
-<textarea data-component="activecode" id=%(divid)s data-lang="%(language)s" %(autorun)s %(hidecode)s %(include)s %(timelimit)s %(coach)s %(codelens)s data-audio='%(ctext)s' %(sourcefile)s %(datafile)s %(stdin)s %(gradebutton)s %(caption)s>
-%(initialcode)s
-</textarea>
-"""
-
 class ActivcodeNode(nodes.General, nodes.Element):
     def __init__(self, content):
         """
@@ -78,6 +72,15 @@ class ActivcodeNode(nodes.General, nodes.Element):
 # The node that is passed as a parameter is an instance of our node class.
 def visit_ac_node(self, node):
     # print self.settings.env.activecodecounter
+
+    TEMPLATE = """
+<div data-ref-id="%(divid)s" data-aplus-exercise="1"></div>
+<div data-ref-id="%(divid)s-hiddenlog" data-aplus-exercise="1" style="display: none;"></div>
+<textarea data-component="activecode" id=%(divid)s data-lang="%(language)s" %(autorun)s %(hidecode)s %(include)s %(timelimit)s %(coach)s %(codelens)s data-audio='%(ctext)s' %(sourcefile)s %(datafile)s %(stdin)s %(gradebutton)s %(caption)s>
+%(initialcode)s
+</textarea>
+"""
+
     res = TEMPLATE
     #todo:  handle above in node.ac_components
     #todo handle  'hidecode' not in node.ac_components:
@@ -129,7 +132,7 @@ class ActiveCode(Directive):
         'stdin' : directives.unchanged,
         'datafile' : directives.unchanged,
         'sourcefile' : directives.unchanged,
-        'available_files' : directives.unchanged
+        'available_files' : directives.unchanged,
     }
 
     def run(self):

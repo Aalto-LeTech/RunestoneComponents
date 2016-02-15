@@ -12,21 +12,73 @@
  return the buttons, but I'm having a hard time thinking of any other use for that besides mine.
  */
 function attachLoggers(codelens, divid) {
-    rb = new RunestoneBase();
+    //rb = new RunestoneBase();
+    var sliderElem = codelens.domRoot.find("#executionSlider");
+
     codelens.domRoot.find("#jmpFirstInstr").click(function () {
-        rb.logBookEvent({'event': 'codelens', 'act': 'first', 'div_id': divid});
+        plusReq(divid, 0, 0, {
+            'event_source': 'codelens-standalone',
+            'action': 'jump-to-first',
+            'min': sliderElem.slider('option', 'min'),
+            'max': sliderElem.slider('option', 'max'),
+            'step': sliderElem.slider('option', 'step'),
+            'new_value': sliderElem.slider('option', 'value'),
+            'divid': divid,
+            'page_url': window.location.href,
+        });
+        //rb.logBookEvent({'event': 'codelens', 'act': 'first', 'div_id': divid});
     });
     codelens.domRoot.find("#jmpLastInstr").click(function () {
-        rb.logBookEvent({'event': 'codelens', 'act': 'last', 'div_id': divid});
+        plusReq(divid, 0, 0, {
+            'event_source': 'codelens-standalone',
+            'action': 'jump-to-last',
+            'min': sliderElem.slider('option', 'min'),
+            'max': sliderElem.slider('option', 'max'),
+            'step': sliderElem.slider('option', 'step'),
+            'new_value': sliderElem.slider('option', 'value'),
+            'divid': divid,
+            'page_url': window.location.href,
+        });
+        //rb.logBookEvent({'event': 'codelens', 'act': 'last', 'div_id': divid});
     });
     codelens.domRoot.find("#jmpStepBack").click(function () {
-        rb.logBookEvent({'event': 'codelens', 'act': 'back', 'div_id': divid});
+        plusReq(divid, 0, 0, {
+            'event_source': 'codelens-standalone',
+            'action': 'step-back',
+            'min': sliderElem.slider('option', 'min'),
+            'max': sliderElem.slider('option', 'max'),
+            'step': sliderElem.slider('option', 'step'),
+            'new_value': sliderElem.slider('option', 'value'),
+            'divid': divid,
+            'page_url': window.location.href,
+        });
+        //rb.logBookEvent({'event': 'codelens', 'act': 'back', 'div_id': divid});
     });
     codelens.domRoot.find("#jmpStepFwd").click(function () {
-        rb.logBookEvent({'event': 'codelens', 'act': 'fwd', 'div_id': divid});
+        plusReq(divid, 0, 0, {
+            'event_source': 'codelens-standalone',
+            'action': 'step-forward',
+            'min': sliderElem.slider('option', 'min'),
+            'max': sliderElem.slider('option', 'max'),
+            'step': sliderElem.slider('option', 'step'),
+            'new_value': sliderElem.slider('option', 'value'),
+            'divid': divid,
+            'page_url': window.location.href,
+        });
+        //rb.logBookEvent({'event': 'codelens', 'act': 'fwd', 'div_id': divid});
     });
-    codelens.domRoot.find("#executionSlider").bind('slide', function (evt, ui) {
-        rb.logBookEvent({'event': 'codelens', 'act': 'slide', 'div_id': divid});
+    sliderElem.bind('slide', function (evt, ui) {
+        plusReq(divid, 0, 0, {
+            'event_source': 'codelens-standalone',
+            'action': 'slide',
+            'min': sliderElem.slider('option', 'min'),
+            'max': sliderElem.slider('option', 'max'),
+            'step': sliderElem.slider('option', 'step'),
+            'new_value': ui.value,
+            'divid': divid,
+            'page_url': window.location.href,
+        });
+        //rb.logBookEvent({'event': 'codelens', 'act': 'slide', 'div_id': divid});
     });
 
 }
@@ -46,4 +98,3 @@ function styleButtons(divid) {
     $(myVis).find("#jmpStepFwd").addClass('btn btn-success');
     $(myVis).find("#jmpLastInstr").addClass('btn btn-default');
 }
-

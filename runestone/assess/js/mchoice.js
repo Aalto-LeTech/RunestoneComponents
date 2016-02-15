@@ -409,9 +409,9 @@ MultipleChoice.prototype.processMCMASubmission = function () {
     this.populateMCMALocalStorage();
     this.logMCMAsubmission();
     this.renderMCMAFeedBack();
-    if (this.useRunestoneServices) {
-        this.enableMCComparison();
-    }
+//    if (this.useRunestoneServices) {
+//        this.enableMCComparison();
+//    }
 };
 
 MultipleChoice.prototype.getSubmittedOpts = function () {
@@ -458,8 +458,27 @@ MultipleChoice.prototype.populateMCMALocalStorage = function () {
 };
 
 MultipleChoice.prototype.logMCMAsubmission = function () {
-    var answerInfo = "answer:" + this.givenlog.substring(0, this.givenlog.length - 1) + ":" + (this.correctCount == this.correctList.length ? "correct" : "no");
-    this.logBookEvent({"event": "mChoice", "act": answerInfo, "div_id": this.divid});
+    //var answerInfo = "answer:" + this.givenlog.substring(0, this.givenlog.length - 1) + ":" + (this.correctCount == this.correctList.length ? "correct" : "no");
+    //this.logBookEvent({"event": "mChoice", "act": answerInfo, "div_id": this.divid});
+
+    var numGiven = this.givenArray.length;
+    var numCorrect = this.correctCount;
+    var numNeeded = this.correctList.length;
+    var wasSuccess = (numGiven === numNeeded && numCorrect === numNeeded);
+    var points = wasSuccess ? 1 : 0;
+
+    plusReq(this.divid, points, 1, {
+        'event_source': 'mchoice',
+        'action': 'evaluate',
+        'question': this.question,
+        'options': this.answerList,
+        'correct_answers': this.correctList,
+        'given_answers': this.givenArray,
+        'number_of_correct': numCorrect,
+        'succeeded': wasSuccess,
+        'divid': this.divid,
+        'page_url': window.location.href,
+    });
 };
 
 
@@ -494,9 +513,9 @@ MultipleChoice.prototype.processMCMFSubmission = function () {
     this.scoreMCMFSubmission();
     this.logMCMFsubmission();
     this.renderMCMFFeedback(this.givenArray[0] == this.correctIndexList[0], this.singlefeedback);
-    if (this.useRunestoneServices) {
-        this.enableMCComparison();
-    }
+//    if (this.useRunestoneServices) {
+//        this.enableMCComparison();
+//    }
 };
 
 MultipleChoice.prototype.scoreMCMFSubmission = function () {
@@ -515,8 +534,24 @@ MultipleChoice.prototype.populateMCMFLocalStorage = function () {
 };
 
 MultipleChoice.prototype.logMCMFsubmission = function () {
-    var answerInfo = "answer:" + this.givenArray[0] + ":" + (this.givenArray[0] == this.correctIndexList[0] ? "correct" : "no");
-    this.logBookEvent({"event": "mChoice", "act": answerInfo, "div_id": this.divid});
+//    var answerInfo = "answer:" + this.givenArray[0] + ":" + (this.givenArray[0] == this.correctIndexList[0] ? "correct" : "no");
+//    this.logBookEvent({"event": "mChoice", "act": answerInfo, "div_id": this.divid});
+
+    var wasSuccess = (this.givenArray[0] == this.correctIndexList[0]);
+    var points = wasSuccess ? 1 : 0;
+
+    plusReq(this.divid, points, 1, {
+        'event_source': 'mchoice',
+        'action': 'evaluate',
+        'question': this.question,
+        'options': this.answerList,
+        'correct_answers': this.correctList,
+        'given_answers': this.givenArray,
+        'number_of_correct': 1,
+        'succeeded': wasSuccess,
+        'divid': this.divid,
+        'page_url': window.location.href,
+    });
 };
 
 MultipleChoice.prototype.renderMCMFFeedback = function (correct, feedbackText) {

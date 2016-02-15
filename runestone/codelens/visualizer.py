@@ -29,14 +29,25 @@ def setup(app):
     app.add_stylesheet('pytutor.css')
     app.add_stylesheet('modal-basic.css')
 
-    app.add_javascript('d3.v2.min.js')
+    # Updated D3 to the newest version; this didn't have any visible effect.
+    #app.add_javascript('d3.v2.min.js')
+    app.add_javascript('d3.min.js')
+
+
     app.add_javascript('jquery.ba-bbq.min.js')
-    app.add_javascript('jquery.jsPlumb-1.3.10-all-min.js')
+
+
+    # Updated to the newest version 2.0.7; this didn't affect to the existence of the myViz.domRoot.find bug.
+    # app.add_javascript('jquery.jsPlumb-1.3.10-all-min.js')
+    app.add_javascript('jsPlumb-2.0.7-min.js')
+
+
     app.add_javascript('pytutor.js')
     app.add_javascript('codelens.js')
 
 
 VIS = '''
+<div data-ref-id="%(divid)s" data-aplus-exercise="1" style="display: none;"></div>
 <div class="alert alert-warning cd_section">
 <div id="%(divid)s"></div>
 <p class="cl_caption"><span class="cl_caption_text">%(caption)s (%(divid)s)</span> </p>
@@ -76,7 +87,7 @@ $(document).ready(function() {
     try {
         %(divid)s_vis = new ExecutionVisualizer('%(divid)s',%(divid)s_trace,
                                     {embeddedMode: %(embedded)s,
-                                    verticalStack: false,
+                                    verticalStack: true,
                                     heightChangeCallback: redrawAllVisualizerArrows,
                                     codeDivWidth: 500,
                                     lang : '%(python)s',
@@ -95,12 +106,6 @@ $(document).ready(function() {
 
 });
 
-$(document).ready(function() {
-    $("#%(divid)s_tracecheck").click(function() {
-        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'%(divid)s'});
-    });
-});
-
 if (allVisualizers === undefined) {
    var allVisualizers = [];
 }
@@ -113,6 +118,12 @@ $(window).resize(function() {
 });
 </script>
 '''
+
+# $(document).ready(function() {
+#     $("#%(divid)s_tracecheck").click(function() {
+#         logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'%(divid)s'});
+#     });
+# });
 
 
 # Some documentation to help the author.

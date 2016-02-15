@@ -78,11 +78,12 @@ class FillInTheBlank(Directive):
             """
 
         TEMPLATE_START = '''
-        <p data-component="fillintheblank" data-casei="%(casei)s" id="%(divid)s">
-            '''
+<div data-ref-id="%(divid)s" data-aplus-exercise="1"></div>
+<p data-component="fillintheblank" data-casei="%(casei)s" id="%(divid)s">
+'''
 
         TEMPLATE_END = '''
-        </p>
+</p>
             '''
 
 
@@ -190,16 +191,16 @@ class Blank(Directive):
             raise ValueError("missing correct value in %s"%self.options['divid'])
 
         TEMPLATE_BLANK_START = '''
-        <span data-blank>
-            '''
+<span data-blank>
+'''
         TEMPLATE_BLANK_OPTION = '''
-        <span data-feedback="regex" style="display: none" id="%(divid)s_%(feedLabel)s">%(feedExp)s</span>
-        <span data-feedback="text" style="display: none" for="%(divid)s_%(feedLabel)s">%(feedText)s</span>
-            '''
+<span data-feedback="regex" style="display: none" id="%(divid)s_%(feedLabel)s">%(feedExp)s</span>
+<span data-feedback="text" style="display: none" for="%(divid)s_%(feedLabel)s">%(feedText)s</span>
+'''
         TEMPLATE_BLANK_END = '''
-        <span data-answer style="display: none" id="%(divid)s_answer">%(correct)s</span>
-        </span>
-        '''
+<span data-answer style="display: none" id="%(divid)s_answer">%(correct)s</span>
+</span>
+'''
 
         blankNode = BlankNode(self.options)
         blankNode.template_blank_start = TEMPLATE_BLANK_START
