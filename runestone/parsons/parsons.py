@@ -32,6 +32,7 @@ def setup(app):
 
 
     # jQuery UI updated to newer version to achieve compatibility with A+
+    #app.add_javascript('lib/jquery-ui.min.old.js')
     app.add_javascript('lib/jquery-ui.min.js')
 
 

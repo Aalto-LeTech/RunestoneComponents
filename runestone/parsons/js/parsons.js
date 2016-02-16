@@ -1281,9 +1281,9 @@
      var fb = this.grader.grade();
      this.feedback = fb;
 
-    //  if (this.options.feedback_cb) {
-    //    this.options.feedback_cb(fb); //TODO(petri): what is needed?
-    //  }
+      if (this.options.feedback_cb) {
+        this.options.feedback_cb(fb); //TODO(petri): what is needed?
+      }
 
      // if answer is correct, mark it in the UI
      if (fb.success) {

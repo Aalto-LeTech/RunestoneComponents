@@ -215,6 +215,8 @@ Parsons.prototype.setButtonFunctions = function () {
 
         this.pwidget.getFeedback();
 
+        $(this.messageDiv).fadeIn(100);
+
         var points = this.pwidget.feedback.success ? 1 : 0;
         plusReq(this.divid, points, 1, {
             'event_source': 'parsons',
@@ -230,12 +232,9 @@ Parsons.prototype.setButtonFunctions = function () {
             'page_url': window.location.href,
         });
 
-         this.pwidget.user_actions = [];
-         this.pwidget.state_path = [];
-         this.pwidget.states = {};
-
-        $(this.messageDiv).fadeIn(100);
-
+        this.pwidget.user_actions = [];
+        this.pwidget.state_path = [];
+        this.pwidget.states = {};
     }.bind(this));
 };
 
@@ -261,7 +260,6 @@ Parsons.prototype.createParsonsWidget = function () {
         "trash_label": getLocalizedString(runestoneParsonsTranslations, "trash_label"),
         "solution_label": getLocalizedString(runestoneParsonsTranslations, "solution_label"),
         "feedback_cb": this.displayErrors.bind(this),
-        "divid": this.divid,
     });
 
     this.pwidget.init($pjQ(this.origDiv).text());

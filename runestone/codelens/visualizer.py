@@ -37,9 +37,11 @@ def setup(app):
     app.add_javascript('jquery.ba-bbq.min.js')
 
 
-    # Updated to the newest version 2.0.7; this didn't affect to the existence of the myViz.domRoot.find bug.
-    # app.add_javascript('jquery.jsPlumb-1.3.10-all-min.js')
-    app.add_javascript('jsPlumb-2.0.7-min.js')
+    #
+    # 16.2.2016 Do NOT upgrade this library! Otherwise CodeLens will break.
+    #
+    app.add_javascript('jquery.jsPlumb-1.3.10-all-min.js')
+    # app.add_javascript('jsPlumb-2.0.7-min.js')
 
 
     app.add_javascript('pytutor.js')
