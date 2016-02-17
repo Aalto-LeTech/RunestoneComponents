@@ -28,15 +28,23 @@ def setup(app):
     app.add_stylesheet('parsons.css')
     app.add_stylesheet('lib/prettify.css')
 
-    # app.add_javascript('lib/jquery.min.js')
+    # 16.2.2016 AL
+    # Old jQuery version disabled in favor of the one bundled with A+.
+    #app.add_javascript('lib/jquery.min.js')
 
 
+    # 16.2.2016 AL
     # jQuery UI updated to newer version to achieve compatibility with A+
     #app.add_javascript('lib/jquery-ui.min.old.js')
     app.add_javascript('lib/jquery-ui.min.js')
 
 
-    app.add_javascript('lib/jquery.ui.touch-punch.min.js')
+    # 16.2.2016 AL
+    # This touch-punch library had to be moved to the html template
+    # so that it would be loaded last; otherwise it wouldn't work.
+    #app.add_javascript('lib/jquery.ui.touch-punch.min.js')
+
+
     app.add_javascript('lib/prettify.js')
 
     app.add_javascript('lib/underscore-min.js')
