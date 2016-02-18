@@ -247,54 +247,57 @@ class ActiveCode(Directive):
         else:
             source = '\n'
             suffix = '\n'
-        try:
-            engine = create_engine(env.config.html_context['dburl'])
-            meta = MetaData()
-            course_name = env.config.html_context['course_id']
-            Source_code = Table('source_code', meta, autoload=True, autoload_with=engine)
-            divid = self.options['divid']
-
-            engine.execute(Source_code.delete().where(Source_code.c.acid == divid).where(Source_code.c.course_id == course_name))
-            engine.execute(Source_code.insert().values(
-                acid = divid,
-                course_id = course_name,
-                main_code= source,
-                suffix_code = suffix,
-                includes = self.options['include'],
-                available_files = self.options.get('available_files', "")
-            ))
-            try:
-                ch, sub_ch = env.docname.split('/')
-            except:
-                ch, sub_ch = (env.docname, 'null subchapter')
-            Div = Table('div_ids', meta, autoload=True, autoload_with=engine)
-            engine.execute(Div.delete()\
-                           .where(Div.c.course_name == course_name)\
-                           .where(Div.c.chapter == ch)\
-                           .where(Div.c.subchapter==sub_ch)\
-                           .where(Div.c.div_id==divid))
-            engine.execute(Div.insert().values(
-                course_name = course_name,
-                chapter = ch,
-                subchapter = sub_ch,
-                div_id = divid,
-                div_type = 'activecode'
-            ))
 
 
-        except Exception as e:
-            print("The exception is ", e)
-            print(env.config.html_context['course_id'])
-            print("Unable to save to source_code table in activecode.py. Possible problems:")
-            print("  1. dburl or course_id are not set in conf.py for your book")
-            print("  2. unable to connect to the database using dburl")
-            print("")
-            print("This should only affect the grading interface. Everything else should be fine.")
+        # try:
+        #     engine = create_engine(env.config.html_context['dburl'])
+        #     meta = MetaData()
+        #     course_name = env.config.html_context['course_id']
+        #     Source_code = Table('source_code', meta, autoload=True, autoload_with=engine)
+        #     divid = self.options['divid']
+        #
+        #     engine.execute(Source_code.delete().where(Source_code.c.acid == divid).where(Source_code.c.course_id == course_name))
+        #     engine.execute(Source_code.insert().values(
+        #         acid = divid,
+        #         course_id = course_name,
+        #         main_code= source,
+        #         suffix_code = suffix,
+        #         includes = self.options['include'],
+        #         available_files = self.options.get('available_files', "")
+        #     ))
+        #     try:
+        #         ch, sub_ch = env.docname.split('/')
+        #     except:
+        #         ch, sub_ch = (env.docname, 'null subchapter')
+        #     Div = Table('div_ids', meta, autoload=True, autoload_with=engine)
+        #     engine.execute(Div.delete()\
+        #                    .where(Div.c.course_name == course_name)\
+        #                    .where(Div.c.chapter == ch)\
+        #                    .where(Div.c.subchapter==sub_ch)\
+        #                    .where(Div.c.div_id==divid))
+        #     engine.execute(Div.insert().values(
+        #         course_name = course_name,
+        #         chapter = ch,
+        #         subchapter = sub_ch,
+        #         div_id = divid,
+        #         div_type = 'activecode'
+        #     ))
+        #
+        # except Exception as e:
+        #     print("The exception is ", e)
+        #     print(env.config.html_context['course_id'])
+        #     print("Unable to save to source_code table in activecode.py. Possible problems:")
+        #     print("  1. dburl or course_id are not set in conf.py for your book")
+        #     print("  2. unable to connect to the database using dburl")
+        #     print("")
+        #     print("This should only affect the grading interface. Everything else should be fine.")
 
 
         acnode = ActivcodeNode(self.options)
         self.add_name(acnode)    # make this divid available as a target for :ref:
         return [acnode]
+
+
 
 
 class ActiveExercise(ActiveCode):
