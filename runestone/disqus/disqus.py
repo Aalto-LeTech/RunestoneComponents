@@ -50,16 +50,19 @@ def setup(app):
     app.connect('doctree-resolved' ,process_disqus_nodes)
     app.connect('env-purge-doc', purge_disqus_nodes)
 
+
+
 class DisqusNode(nodes.General, nodes.Element):
     def __init__(self,content):
         super(DisqusNode,self).__init__()
         self.disqus_components = content
 
-
 def visit_disqus_node(self, node):
-    res = DISQUS_COMMENTS
-    res = res % node.disqus_components
-    self.body.append(res)
+    should_render = str(node.document.settings.env.config.html_context["render_disqus"]).lower()
+    if should_render == 'true':
+        res = DISQUS_COMMENTS
+        res = res % node.disqus_components
+        self.body.append(res)
 
 def depart_disqus_node(self,node):
     pass
@@ -69,6 +72,8 @@ def process_disqus_nodes(app, env, docname):
 
 def purge_disqus_nodes(app, env, docname):
     pass
+
+
 
 
 class DisqusDirective(Directive):
