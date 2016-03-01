@@ -118,10 +118,20 @@ Parsons.prototype.createParsonsView = function () {         // Create DOM elemen
     $(this.containingDiv).addClass("parsons alert alert-warning");
     this.containingDiv.id = "parsons-" + this.counterId;
 
+    this.parsTtitleDiv = document.createElement("div");
+    $(this.parsTtitleDiv).addClass("parsons-heading");
+    this.parsTtitleDiv.innerHTML = "Sotkeutuneet ohjelmat";
+    this.containingDiv.appendChild(this.parsTtitleDiv);
+
     this.parsTextDiv = document.createElement("div");
     $(this.parsTextDiv).addClass("parsons-text");
     this.parsTextDiv.innerHTML = this.question.innerHTML;
     this.containingDiv.appendChild(this.parsTextDiv);
+
+    this.parsHelpDiv = document.createElement("div");
+    $(this.parsHelpDiv).addClass("parsons-help");
+    this.parsHelpDiv.innerHTML = "Vedä vasemmalla olevat koodilohkoja oikeanpuoleiseen tyhjään tilaan oikeaan järjestykseen ja huolehdi myös sisennyksestä (myös sisentäminen tapahtuu hiirellä lohkoa vetäen). Paina <i>Tarkista vastaus</i> -painiketta tarkastuttaaksesi vastauksesi. Palautteessa kerrotaan, jos vastauksessa on väärässä järjestyksessä olevia tai väärin sisennettyjä rivejä.";
+    this.containingDiv.appendChild(this.parsHelpDiv);
 
     this.leftClearDiv = document.createElement("div");
     this.leftClearDiv.style["clear"] = "left";
