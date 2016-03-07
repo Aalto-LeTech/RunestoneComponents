@@ -288,24 +288,33 @@ var activeCodeLocalizationColl = {
 
         ErrorFromCodeRun_TimeLimitError:
                 "Ohjelmansuorituksen kestolle on asetettu turvaraja, joka on tällä suorituskerralla ylitetty. Nopeahkolla yleiskäyttöisellä tietokoneella tämän " +
-                "oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia, joskin erityisesti kuvia ja kilpikonnia hyödyntävien " +
-                "esimerkkien suoritus voi kestää pidempäänkin erityisesti hitaammilla tietokoneilla, kuten tableteilla.<br/><br/>On myös mahdollista, että tämä " +
+                "oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia, joskin kuvia ja kilpikonnia hyödyntävien esimerkkien " +
+                "suorittaminen voi erityisesti hitaammilla tietokoneilla, kuten tableteilla, kestää pidempäänkin.<br/><br/>On myös mahdollista, että tämä " +
                 "ongelma johtuu virheellisestä ohjelmasta. Tässä tapauksessa tyypillinen syy tähän virheeseen on, että ohjelmassa on päättymätön silmukka.",
 
         ErrorFromCodeRun_TimeLimitErrorFix:
                 "Kannattaa lisätä ohjelmaan sopiviin kohtiin tulostuslauseita, joiden tulosteista voi päätellä, ettei ohjelmassa ole päättymätöntä silmukkaa. Jos " +
-                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa kutsulla " +
-                "<i>sys.setExecutionLimit(&lt;haluttu kestoraja millisekunteina&gt;)</i>: Esimerkiksi 60 000 ms vastaa minuuttia, ja 120 000 ms " +
-                "vastaavasti kahta minuuttia. Edellä esitellyn kutsun tarvitsema <i>sys</i>-moduuli " +
-                "täytyy luonnollisesti ottaa käyttöön ohjelman alkuun sijoitettavalla komennolla <i>import sys</i>.",
+                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa lisäämällä ohjelman alkuun seuraavat rivit ja " +
+                "muokkaamalla jälkimmäisellä rivillä suurimman suoritusajan määrittelevää lukua halutun suuruiseksi:<br /><br />" +
+                "<code>import sys</code><br />" +
+                "<code>sys.setExecutionLimit(10000)</code><br /><br />" +
+                "Jälkimmäisen rivin suoritusaikaraja määritellään millisekunteina: Esimerkiksi 60000 ms vastaa minuuttia, 120000 ms " +
+                "kahta minuuttia, ja 300000 ms vastaavasti viittä minuuttia.",
 
         ErrorFromCodeRun_Error:
-                "Ohjelman suoritus kestää liian pitkään. Tämän oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia. " +
-                "Eräs syy tähän virheeseen on, että ohjelmassa on päättymätön silmukka.",
+                "Ohjelmansuorituksen kestolle on asetettu turvaraja, joka on tällä suorituskerralla ylitetty. Nopeahkolla yleiskäyttöisellä tietokoneella tämän " +
+                "oppikirjan ohjelmista suurimman osan suorituksen pitäisi kestää korkeintaan 10 sekuntia, joskin kuvia ja kilpikonnia hyödyntävien esimerkkien " +
+                "suorittaminen voi erityisesti hitaammilla tietokoneilla, kuten tableteilla, kestää pidempäänkin.<br/><br/>On myös mahdollista, että tämä " +
+                "ongelma johtuu virheellisestä ohjelmasta. Tässä tapauksessa tyypillinen syy tähän virheeseen on, että ohjelmassa on päättymätön silmukka.",
 
         ErrorFromCodeRun_ErrorFix:
                 "Kannattaa lisätä ohjelmaan sopiviin kohtiin tulostuslauseita, joiden tulosteista voi päätellä, ettei ohjelmassa ole päättymätöntä silmukkaa. Jos " +
-                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa kutsulla sys.setExecutionLimit(<i>millisekuntimäärä</i>).",
+                "tällaista silmukkaa ei löydy, voi kokeilla kasvattaa ohjelmalle asetettua suoritusaikarajaa lisäämällä ohjelman alkuun seuraavat rivit ja " +
+                "muokkaamalla jälkimmäisellä rivillä suurimman suoritusajan määrittelevää lukua halutun suuruiseksi:<br /><br />" +
+                "<code>import sys</code><br />" +
+                "<code>sys.setExecutionLimit(10000)</code><br /><br />" +
+                "Jälkimmäisen rivin suoritusaikaraja määritellään millisekunteina: Esimerkiksi 60000 ms vastaa minuuttia, 120000 ms " +
+                "kahta minuuttia, ja 300000 ms vastaavasti viittä minuuttia.",
 
         ErrorFromCodeRun_SyntaxError:
                 "<i>Syntax error</i> eli <i>kielioppivirhe</i> tarkoittaa, ettei Python-tulkki/kääntäjä ymmärrä jonkin lauseen kielioppia, koska lause " +
