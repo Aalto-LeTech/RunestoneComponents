@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Copyright (C) 2011  Bradley N. Miller
 #
 # This program is free software: you can redistribute it and/or modify
@@ -61,16 +63,16 @@ QUESTION = '''
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Check your understanding</h4>
+        <h4 class="modal-title">%(dialogTitleCheck)s</h4>
       </div>
       <div class="modal-body">
         <p>%(question)s</p>
         <input id="%(divid)s_textbox" type="textbox" class="form-control" style="width:200px;" />
         <br />
         <button id="%(divid)s_tracecheck" class='btn btn-default tracecheck' onclick="traceQCheckMe('%(divid)s_textbox','%(divid)s','%(correct)s')">
-          Check Me
+          %(buttonCaptionCheck)s
         </button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Continue</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">%(buttonCaptionContinue)s</button>
         <br />
         <p id="%(divid)s_feedbacktext" class="feedbacktext alert alert-warning"></p>
       </div>
@@ -180,6 +182,22 @@ class Codelens(Directive):
 
     has_content = True
 
+    def translatedStr(self, string_id):
+        t = {
+            "en": {
+                "CaptionCheckDialog": "Check Your Understanding",
+                "CaptionBtnCheck": "Check Answer",
+                "CaptionBtnContinue": "Continue",
+            },
+            "fi": {
+                "CaptionCheckDialog": "Tarkista ymmärtämisesi",
+                "CaptionBtnCheck": "Tarkista vastaus",
+                "CaptionBtnContinue": "Jatka",
+            }
+        }
+        lang_id = self.state.document.settings.env.config.html_context["language"]
+        return t[lang_id][string_id]
+
     def run(self):
 
         self.JS_VARNAME = ""
@@ -200,6 +218,10 @@ class Codelens(Directive):
             source = "\n".join(self.content)
         else:
             source = '\n'
+
+        self.options['dialogTitleCheck'] = self.translatedStr("CaptionCheckDialog")
+        self.options['buttonCaptionCheck'] = self.translatedStr("CaptionBtnCheck")
+        self.options['buttonCaptionContinue'] = self.translatedStr("CaptionBtnContinue")
 
         CUMULATIVE_MODE = False
         self.JS_VARNAME = self.options['divid'] + '_trace'
