@@ -87,6 +87,7 @@ var pyTutor3JsLocalizationColl = {
         LabelSteppingExpressions: "Stepping through (roughly) each executed expression. Color codes:",
         LabelPy2crazyMode: "<a href='https://github.com/pgbovine/Py2crazy'>Py2crazy</a> mode!",
         LabelToHomeSize: '<div style="font-size: 8pt; margin-bottom: 20px;">Visualized using <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Online Python Tutor</a> by <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a></div>',
+        AnswerCorrect: 'Correct.',
     },
     "fi": {
         CaptionBtnFirstStep: "&lt;&lt; Alkuun",
@@ -112,6 +113,7 @@ var pyTutor3JsLocalizationColl = {
         LabelSteppingExpressions: "Askelletaan (suurin piirtein) jokaisen suoritettavan lausekkeen läpi. Värikoodit:",
         LabelPy2crazyMode: "<a href='https://github.com/pgbovine/Py2crazy'>Py2crazy</a>-tila!",
         LabelToHomeSize: '<div style="font-size: 8pt; margin-bottom: 20px;">Visualisaation toteuttaa palvelu <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Online Python Tutor</a>, jonka on toteuttanut <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a>.</div>',
+        AnswerCorrect: 'Oikein. Hyvä!',
     },
 };
 
@@ -4223,7 +4225,7 @@ function traceQCheckMe(inputId, divId, answer) {
    }
    feedbackElement = $("#" + divId + "_feedbacktext")
    if (ans.length > 0 && ans == correctAns) {
-       feedbackElement.html('Correct')
+       feedbackElement.html(this.getLocalizedString("AnswerCorrect"));
    } else {
        feedbackElement.html(vis.curTrace[i].question.feedback)
    }
