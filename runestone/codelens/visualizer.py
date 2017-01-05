@@ -69,7 +69,7 @@ QUESTION = '''
         <p>%(question)s</p>
         <input id="%(divid)s_textbox" type="textbox" class="form-control" style="width:200px;" />
         <br />
-        <button id="%(divid)s_tracecheck" class='btn btn-default tracecheck' onclick="traceQCheckMe('%(divid)s_textbox','%(divid)s','%(correct)s')">
+        <button id="%(divid)s_tracecheck" class='btn btn-default tracecheck' onclick="traceQCheckMe('%(divid)s_textbox','%(divid)s','%(correct)s','%(feedbackForCorrect)s')">
           %(buttonCaptionCheck)s
         </button>
         <button type="button" class="btn btn-default" data-dismiss="modal">%(buttonCaptionContinue)s</button>
@@ -188,11 +188,13 @@ class Codelens(Directive):
                 "CaptionCheckDialog": "Check Your Understanding",
                 "CaptionBtnCheck": "Check Answer",
                 "CaptionBtnContinue": "Continue",
+                "FeedbackForCorrect": "Correct.",
             },
             "fi": {
                 "CaptionCheckDialog": "Tarkista ymmärtämisesi",
                 "CaptionBtnCheck": "Tarkista vastaus",
                 "CaptionBtnContinue": "Jatka",
+                "FeedbackForCorrect": "Oikein. Hyvä!",
             }
         }
         lang_id = self.state.document.settings.env.config.html_context["language"]
@@ -222,6 +224,7 @@ class Codelens(Directive):
         self.options['dialogTitleCheck'] = self.translatedStr("CaptionCheckDialog")
         self.options['buttonCaptionCheck'] = self.translatedStr("CaptionBtnCheck")
         self.options['buttonCaptionContinue'] = self.translatedStr("CaptionBtnContinue")
+        self.options['feedbackForCorrect'] = self.translatedStr("FeedbackForCorrect")
 
         CUMULATIVE_MODE = False
         self.JS_VARNAME = self.options['divid'] + '_trace'

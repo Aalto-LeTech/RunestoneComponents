@@ -87,7 +87,6 @@ var pyTutor3JsLocalizationColl = {
         LabelSteppingExpressions: "Stepping through (roughly) each executed expression. Color codes:",
         LabelPy2crazyMode: "<a href='https://github.com/pgbovine/Py2crazy'>Py2crazy</a> mode!",
         LabelToHomeSize: '<div style="font-size: 8pt; margin-bottom: 20px;">Visualized using <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Online Python Tutor</a> by <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a></div>',
-        AnswerCorrect: 'Correct.',
     },
     "fi": {
         CaptionBtnFirstStep: "&lt;&lt; Alkuun",
@@ -113,7 +112,6 @@ var pyTutor3JsLocalizationColl = {
         LabelSteppingExpressions: "Askelletaan (suurin piirtein) jokaisen suoritettavan lausekkeen läpi. Värikoodit:",
         LabelPy2crazyMode: "<a href='https://github.com/pgbovine/Py2crazy'>Py2crazy</a>-tila!",
         LabelToHomeSize: '<div style="font-size: 8pt; margin-bottom: 20px;">Visualisaation toteuttaa palvelu <a href="http://pythontutor.com" target="_blank" style="color: #3D58A2;">Online Python Tutor</a>, jonka on toteuttanut <a href="http://www.pgbovine.net/" target="_blank" style="color: #3D58A2;">Philip Guo</a>.</div>',
-        AnswerCorrect: 'Oikein. Hyvä!',
     },
 };
 
@@ -4213,7 +4211,7 @@ function isOutputLineVisibleForBubbles(lineDivID) {
 // So if we want to ask for the value of a global variable we would say 'globals.a'
 // this allows us do do curTrace[i].globals.a  But we do it in the loop below using the
 // [] operator.
-function traceQCheckMe(inputId, divId, answer) {
+function traceQCheckMe(inputId, divId, answer, correctAnswerFeedbackText) {
    var vis = $("#"+divId).data("vis")
    var i = vis.curInstr
    var curEntry = vis.curTrace[i+1];
@@ -4225,7 +4223,7 @@ function traceQCheckMe(inputId, divId, answer) {
    }
    feedbackElement = $("#" + divId + "_feedbacktext")
    if (ans.length > 0 && ans == correctAns) {
-       feedbackElement.html(this.getLocalizedString("AnswerCorrect"));
+       feedbackElement.html(correctAnswerFeedbackText);
    } else {
        feedbackElement.html(vis.curTrace[i].question.feedback)
    }
